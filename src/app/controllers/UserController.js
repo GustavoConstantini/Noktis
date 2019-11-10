@@ -21,12 +21,10 @@ class UserController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'validation fails ' });
     }
-    if (sexo) {
-      if ((await req.body.sexo.toUpperCase() !== 'F' && req.body.sexo.toUpperCase() !== 'M')) {
-        return res.status(400).json({ error: 'validation fails ' });
-      }
-    }
 
+    if (sexo.toUpperCase() !== 'F' && sexo.toUpperCase() !== 'M') {
+      return res.status(400).json({ error: 'validation fails ' });
+    }
 
     const userExists = await User.findOne({ where: { email: req.body.email } });
 
@@ -55,14 +53,17 @@ class UserController {
       confirmPassword: Yup.string().when('password', (password, field) => (password ? field.required().oneOf([Yup.ref('password')]) : field)),
     });
 
+    const { sexo } = req.body;
+
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'validation fails ' });
     }
 
-    if ((await req.body.sexo.toUpperCase() !== 'F' && req.body.sexo.toUpperCase() !== 'M')) {
-      return res.status(400).json({ error: 'validation fails ' });
+    if (sexo) {
+      if (sexo.toUpperCase() !== 'F' && sexo.toUpperCase() !== 'M') {
+        return res.status(400).json({ error: 'validation fails ' });
+      }
     }
-
     const { email, oldPassword } = req.body;
 
     const user = await User.findByPk(req.userId);
@@ -80,7 +81,7 @@ class UserController {
     }
 
     const {
-      id, name, sexo, bio, admin,
+      id, name, bio, admin,
     } = await user.update(req.body);
 
     return res.json({
