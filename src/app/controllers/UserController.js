@@ -81,11 +81,11 @@ class UserController {
     }
 
     const {
-      id, name, bio, admin,
+      id, name, bio, path, admin,
     } = await user.update(req.body);
 
     return res.json({
-      id, name, sexo, bio, email, admin,
+      id, name, sexo, bio, path, email, admin,
     });
   }
 }

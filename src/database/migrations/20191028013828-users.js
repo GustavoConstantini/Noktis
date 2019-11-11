@@ -18,6 +18,11 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false,
     },
+    path: {
+      type: Sequelize.STRING,
+      defaultValue: null,
+      unique: true,
+    },
     email: {
       type: Sequelize.STRING,
       allowwNull: false,

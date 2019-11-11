@@ -10,11 +10,11 @@ import authMiddleware from './app/middlewares/auth';
 const routes = new Router();
 const upload = multer(multerConfig);
 
-routes.post('/users', UserController.store);
+routes.post('/user/create', UserController.store);
 routes.post('/sessions', SessionController.store);
 
 routes.use(authMiddleware);
 
-routes.put('/updates', UserController.update);
-routes.post('/upload/files', upload.any('file'), (req, res) => res.json({ ok: true }));
+routes.put('/user/updates', UserController.update);
+routes.post('/upload/file', upload.single('file'), (req, res) => res.json({ ok: true }));
 export default routes;
