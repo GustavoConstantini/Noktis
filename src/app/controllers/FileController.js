@@ -1,18 +1,10 @@
 import User from '../models/User';
 
-class FileController {
+ class FileController {
   async store(req, res) {
     const user = await User.findByPk(req.userId);
-
-
-    const {
-      id, name, sexo, bio, path, email, admin,
-    } = await user.update(req.file);
-
-    return res.json({
-      id, name, sexo, bio, path, email, admin,
-    });
+    const { filename } = await user.update(req.file);
+    return res.json({ filename });
   }
 }
-
-export default new FileController();
+export default new FileController()

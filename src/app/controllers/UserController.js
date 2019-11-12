@@ -19,17 +19,17 @@ class UserController {
 
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'validation fails ' });
+      return res.status(400).json({ error: 'Falha ao validar' });
     }
 
     if (sexo.toUpperCase() !== 'F' && sexo.toUpperCase() !== 'M') {
-      return res.status(400).json({ error: 'validation fails ' });
+      return res.status(400).json({ error: 'Falha ao validar' });
     }
 
     const userExists = await User.findOne({ where: { email: req.body.email } });
 
     if (userExists) {
-      return res.status(400).json({ error: 'User already exits' });
+      return res.status(400).json({ error: 'Este usuário já existe' });
     }
     const {
       id, name, bio, email, admin,
@@ -56,12 +56,12 @@ class UserController {
     const { sexo } = req.body;
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'validation fails ' });
+      return res.status(400).json({ error: 'Falha ao validar ' });
     }
 
     if (sexo) {
       if (sexo.toUpperCase() !== 'F' && sexo.toUpperCase() !== 'M') {
-        return res.status(400).json({ error: 'validation fails ' });
+        return res.status(400).json({ error: 'Falha ao validar ' });
       }
     }
     const { email, oldPassword } = req.body;
@@ -72,12 +72,12 @@ class UserController {
       const userExists = await User.findOne({ where: { email } });
 
       if (userExists) {
-        return res.status(400).json({ error: 'User already exists ' });
+        return res.status(400).json({ error: 'Este usuário já existe ' });
       }
     }
 
     if (oldPassword && !(await user.checkPassword(oldPassword))) {
-      return res.status(401).json({ error: 'Password does not match ' });
+      return res.status(401).json({ error: 'As senhas não batem ' });
     }
 
     const {
@@ -85,7 +85,7 @@ class UserController {
     } = await user.update(req.body);
 
     return res.json({
-      id, name, sexo, bio, path, email, admin,
+      id, name, sexo, bio, filename, email, admin,
     });
   }
 }

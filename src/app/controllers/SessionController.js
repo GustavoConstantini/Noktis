@@ -15,7 +15,7 @@ class SessionConstroller {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'validation fails ' });
+      return res.status(400).json({ error: 'Falha na validacão' });
     }
 
     const { email, password } = req.body;
@@ -23,15 +23,15 @@ class SessionConstroller {
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
-      return res.status(401).json({ error: 'User not found' });
+      return res.status(401).json({ error: 'Usuário não encontrado' });
     }
 
     if (!(await user.checkPassword(password))) {
-      return res.status(401).json({ error: 'Password does not match' });
+      return res.status(401).json({ error: 'Senha incorreta' });
     }
 
     const {
-      id, name, sexo, bio, path,
+      id, name, sexo, bio, filename,
     } = user;
 
     return res.json({
@@ -40,7 +40,7 @@ class SessionConstroller {
         name,
         sexo,
         bio,
-        path,
+        filename,
         email,
       },
       token: jwt.sign({ id }, authConfig.secret, {
