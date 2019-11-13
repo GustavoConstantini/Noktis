@@ -1,8 +1,8 @@
-import { createReadStream } from 'fs';
+// import { createReadStream } from 'fs';
 
-function resize(path) {
-  const readStream = createReadStream(`./uploads/${path}`);
-  return readStream;
-}
+// function resize(path) {
+//   const readStream = createReadStream(`./uploads/${path}`);
+//   return readStream;
+// }
 
-export default resize;
+// export default resize;
