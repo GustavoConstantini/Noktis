@@ -10,7 +10,7 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    sexo: {
+    sex: {
       type: Sequelize.STRING,
       allowNull: false,
     },
@@ -27,6 +27,21 @@ module.exports = {
       type: Sequelize.STRING,
       allowwNull: false,
       unique: true,
+    },
+    latitude: {
+      type: Sequelize.STRING,
+      defaultValue: null,
+      unique: true,
+    },
+    longitude: {
+      type: Sequelize.STRING,
+      defaultValue: null,
+      unique: true,
+    },
+    online: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
     },
     password_hash: {
       type: Sequelize.STRING,

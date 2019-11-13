@@ -31,16 +31,18 @@ class SessionConstroller {
     }
 
     const {
-      id, name, sexo, bio, filename,
+      id, name, sex, bio, filename, latitude, longitude,
     } = user;
 
     return res.json({
       user: {
         id,
         name,
-        sexo,
+        sex,
         bio,
         filename,
+        latitude,
+        longitude,
         email,
       },
       token: jwt.sign({ id }, authConfig.secret, {
