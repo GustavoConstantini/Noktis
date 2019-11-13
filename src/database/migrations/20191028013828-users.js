@@ -31,12 +31,12 @@ module.exports = {
     latitude : {
       type: Sequelize.STRING,
       defaultValue: null,
-      allowNull: true,
+      unique: true,
     },
     longitude : {
       type: Sequelize.STRING,
       defaultValue: null,
-      allowNull: true,
+      unique: true,
     },
     password_hash: {
       type: Sequelize.STRING,
