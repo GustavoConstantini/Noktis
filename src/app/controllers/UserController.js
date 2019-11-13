@@ -8,7 +8,7 @@ class UserController {
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
-      sexo: Yup.string().required(),
+      sex: Yup.string().required(),
       bio: Yup.string().required(),
       latitude: Yup.string(),
       longitude: Yup.string(),
