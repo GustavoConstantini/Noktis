@@ -1,7 +1,7 @@
-class Show {
-  view(req, res) {
-    return res.type('image/$png');
-  }
-}
+// class Show {
+//   view(req, res) {
+//     return res.type('image/$png');
+//   }
+// }
 
-export default new Show();
+// export default new Show();

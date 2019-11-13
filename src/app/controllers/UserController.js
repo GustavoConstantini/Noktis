@@ -10,6 +10,8 @@ class UserController {
       name: Yup.string().required(),
       sexo: Yup.string().required(),
       bio: Yup.string().required(),
+      latitude: Yup.string(),
+      longitude: Yup.string(),
       email: Yup.string()
         .email()
         .required(),
@@ -18,14 +20,14 @@ class UserController {
         .min(1),
     });
 
-    const { sexo } = req.body;
+    const { sex } = req.body;
 
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Falha ao validar' });
     }
 
-    if (sexo.toUpperCase() !== 'F' && sexo.toUpperCase() !== 'M') {
+    if (sex.toUpperCase() !== 'F' && sex.toUpperCase() !== 'M') {
       return res.status(400).json({ error: 'Falha ao validar' });
     }
 
@@ -35,16 +37,18 @@ class UserController {
       return res.status(400).json({ error: 'Este usuário já existe' });
     }
     const {
-      id, name, bio, email, filename, admin,
+      id, name, bio, email, filename, latitude, longitude, admin,
     } = await User.create(req.body);
 
     return res.json({
       user: {
         id,
         name,
-        sexo,
+        sex,
         bio,
         filename,
+        latitude,
+        longitude,
         admin,
         email,
       },
@@ -58,7 +62,7 @@ class UserController {
     const schema = Yup.object().shape({
       email: Yup.string().email().required(),
       name: Yup.string(),
-      sexo: Yup.string(),
+      sex: Yup.string(),
       bio: Yup.string(),
       oldPassword: Yup.string().min(1),
       password: Yup.string()
@@ -67,14 +71,14 @@ class UserController {
       confirmPassword: Yup.string().when('password', (password, field) => (password ? field.required().oneOf([Yup.ref('password')]) : field)),
     });
 
-    const { sexo } = req.body;
+    const { sex } = req.body;
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Falha ao validar ' });
     }
 
-    if (sexo) {
-      if (sexo.toUpperCase() !== 'F' && sexo.toUpperCase() !== 'M') {
+    if (sex) {
+      if (sex.toUpperCase() !== 'F' && sex.toUpperCase() !== 'M') {
         return res.status(400).json({ error: 'Falha ao validar ' });
       }
     }
@@ -99,7 +103,7 @@ class UserController {
     } = await user.update(req.body);
 
     return res.json({
-      id, name, sexo, bio, email,
+      id, name, sex, bio, email,
     });
   }
 }
