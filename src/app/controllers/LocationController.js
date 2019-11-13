@@ -4,9 +4,9 @@ class LocationController {
   async store(req, res) {
     const user = await User.findByPk(req.userId);
 
-    const { latitude, longitude } =  await user.update(req.body);
+    const { latitude, longitude } = await user.update(req.body);
 
-    if(!(latitude && longitude)) {
+    if (!(latitude && longitude)) {
       return res.status(400).json({ error: 'Falha ao validar' });
     }
 
@@ -14,4 +14,3 @@ class LocationController {
   }
 }
 export default new LocationController();
-

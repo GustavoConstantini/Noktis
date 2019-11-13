@@ -28,15 +28,20 @@ module.exports = {
       allowwNull: false,
       unique: true,
     },
-    latitude : {
+    latitude: {
       type: Sequelize.STRING,
       defaultValue: null,
       unique: true,
     },
-    longitude : {
+    longitude: {
       type: Sequelize.STRING,
       defaultValue: null,
       unique: true,
+    },
+    online: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
     },
     password_hash: {
       type: Sequelize.STRING,
