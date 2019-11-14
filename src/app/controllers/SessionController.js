@@ -41,9 +41,9 @@ class SessionConstroller {
         sex,
         bio,
         filename,
+        email,
         latitude,
         longitude,
-        email,
       },
       token: jwt.sign({ id }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,
