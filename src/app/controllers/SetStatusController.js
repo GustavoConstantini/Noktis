@@ -10,9 +10,19 @@ class SetStatusController {
       return res.status(400).json({ error: 'status invalido' });
     }
 
-    await user.update(req.body);
+    if (online.toUpperCase() === 'FALSE') {
+      setInterval(async () => {
+        await user.update(req.body);
 
-    return res.json({ ok: 'status atualizado' });
+        return res.json({ ok: 'status atualizado' });
+      }, 2700000);
+    }
+
+    if (online.toUpperCase() === 'TRUE') {
+      await user.update(req.body);
+
+      return res.json({ ok: 'status atualizado' });
+    }
   }
 }
 
