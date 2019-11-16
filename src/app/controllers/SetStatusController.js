@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import User from '../models/User';
 
 class SetStatusController {

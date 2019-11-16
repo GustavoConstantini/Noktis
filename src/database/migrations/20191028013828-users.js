@@ -31,12 +31,10 @@ module.exports = {
     latitude: {
       type: Sequelize.STRING,
       defaultValue: null,
-      unique: true,
     },
     longitude: {
       type: Sequelize.STRING,
       defaultValue: null,
-      unique: true,
     },
     online: {
       type: Sequelize.BOOLEAN,

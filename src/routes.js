@@ -8,6 +8,7 @@ import LocationController from './app/controllers/LocationController';
 import FileController from './app/controllers/FileController';
 import GetOnlineController from './app/controllers/GetOnlineController';
 import SetStatusController from './app/controllers/SetStatusController';
+import GetDistanciaController from './app/controllers/GetDistanciaController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -27,6 +28,8 @@ routes.post('/location/send', LocationController.store);
 routes.post('/upload/file', upload.single('file'), FileController.store);
 
 routes.get('/users/online', GetOnlineController.store);
+
+routes.get('/users/online/:id', GetDistanciaController.store);
 
 routes.post('/set/status', SetStatusController.store);
 
