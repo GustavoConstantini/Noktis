@@ -6,7 +6,7 @@ class LocationController {
 
     const { latitude, longitude } = req.body;
 
-    await user.update(req.body);
+    await user.update(req.file);
 
     if (!(latitude && longitude)) {
       return res.status(400).json({ error: 'Falha ao validar' });

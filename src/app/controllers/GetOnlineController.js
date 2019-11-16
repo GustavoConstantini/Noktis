@@ -1,12 +1,24 @@
+import { Op } from 'sequelize';
 import Users from '../models/User';
 
 class GetOnlineController {
   async store(req, res) {
-    const User = await Users.findAll({ where: { online: true }, attributes: ['name', 'bio', 'sex', 'filename', 'latitude', 'longitude'] });
-    const users = User.map((index) => index.dataValues);
-    if (!users) {
-      return res.status(400).json({ error: 'Bad request' });
+    const user = await Users.findByPk(req.userId);
+
+    const { sex } = user;
+
+    let oppositeSex;
+
+    if (sex === 'F') {
+      oppositeSex = 'M';
+    } else {
+      oppositeSex = 'F';
     }
+
+    let users = await Users.findAll({ where: { [Op.and]: [{ online: true }, { sex: `${oppositeSex}` }] }, attributes: ['name', 'bio', 'sex', 'filename', 'latitude', 'longitude'] });
+
+    users = users.map((index) => index.dataValues);
+
     return res.json({ users });
   }
 }

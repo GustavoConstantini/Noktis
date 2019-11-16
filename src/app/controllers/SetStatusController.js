@@ -11,11 +11,11 @@ class SetStatusController {
     }
 
     if (online.toUpperCase() === 'FALSE') {
-      setInterval(async () => {
+      setTimeout(async () => {
         await user.update(req.body);
 
         return res.json({ ok: 'status atualizado' });
-      }, 2700000);
+      }, 30000);
     }
 
     if (online.toUpperCase() === 'TRUE') {
