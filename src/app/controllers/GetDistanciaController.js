@@ -1,5 +1,5 @@
 import Distancia from '../../config/distancia';
-import Users from '../models/User';
+import User from '../models/User';
 
 class GetDistanciaController {
   async store(req, res) {
@@ -7,9 +7,9 @@ class GetDistanciaController {
 
     const idNumber = Number(id);
 
-    const { dataValues: user } = await Users.findOne({ where: { id: req.userId }, attributes: ['latitude', 'longitude'] });
+    const { dataValues: user } = await User.findOne({ where: { id: req.userId }, attributes: ['latitude', 'longitude'] });
 
-    const { dataValues: getUser } = await Users.findOne({ where: { id: idNumber }, attributes: ['latitude', 'longitude'] });
+    const { dataValues: getUser } = await User.findOne({ where: { id: idNumber }, attributes: ['latitude', 'longitude'] });
 
 
     const { latitude: lat1, longitude: lon1 } = user;

@@ -1,9 +1,9 @@
 import { Op } from 'sequelize';
-import Users from '../models/User';
+import User from '../models/User';
 
 class GetOnlineController {
   async store(req, res) {
-    const user = await Users.findByPk(req.userId);
+    const user = await User.findByPk(req.userId);
 
     const { sex } = user;
 
@@ -15,7 +15,7 @@ class GetOnlineController {
       oppositeSex = 'F';
     }
 
-    let users = await Users.findAll({ where: { [Op.and]: [{ online: true }, { sex: `${oppositeSex}` }] }, attributes: ['id', 'name', 'bio', 'sex', 'filename'] });
+    let users = await User.findAll({ where: { [Op.and]: [{ online: true }, { sex: `${oppositeSex}` }] }, attributes: ['id', 'name', 'bio', 'sex', 'filename'] });
 
     users = users.map((index) => index.dataValues);
 
