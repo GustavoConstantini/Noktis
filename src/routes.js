@@ -33,9 +33,9 @@ routes.get('/users/online', GetOnlineController.index);
 
 routes.get('/users/online/:id', GetDistanciaController.store);
 
-routes.post('/users/:id/likes', LikeController.store);
+routes.post('/users/dislikes', LikeController.store);
 
-routes.post('/users/:id/likes', DislikeController.store);
+routes.post('/users/likes', DislikeController.store);
 
 
 routes.post('/set/status', SetStatusController.store);

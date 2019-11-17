@@ -3,7 +3,7 @@ import User from '../models/User';
 
 class DislikeController {
   async store(req, res) {
-    const { id } = req.params;
+    const { id } = req.body;
 
     const idNumber = Number(id);
 
