@@ -31,25 +31,24 @@ module.exports = {
     latitude: {
       type: Sequelize.STRING,
       defaultValue: null,
-      unique: true,
     },
     longitude: {
       type: Sequelize.STRING,
       defaultValue: null,
-      unique: true,
     },
     online: {
       type: Sequelize.BOOLEAN,
       defaultValue: false,
       allowNull: false,
     },
+    likes: {
+      type: Sequelize.ARRAY(Sequelize.INTEGER),
+    },
+    dislikes: {
+      type: Sequelize.ARRAY(Sequelize.INTEGER),
+    },
     password_hash: {
       type: Sequelize.STRING,
-      allowNull: false,
-    },
-    admin: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: false,
       allowNull: false,
     },
     created_at: {

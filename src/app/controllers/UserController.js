@@ -37,7 +37,7 @@ class UserController {
       return res.status(400).json({ error: 'Este usuário já existe' });
     }
     const {
-      id, name, bio, email, filename, latitude, longitude, admin,
+      id, name, bio, email, filename, latitude, longitude,
     } = await User.create(req.body);
 
     return res.json({
@@ -49,7 +49,6 @@ class UserController {
         filename,
         latitude,
         longitude,
-        admin,
         email,
       },
       token: jwt.sign({ id }, authConfig.secret, {

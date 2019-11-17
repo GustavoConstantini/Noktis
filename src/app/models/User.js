@@ -13,9 +13,10 @@ class User extends Model {
         latitude: Sequelize.STRING,
         longitude: Sequelize.STRING,
         online: Sequelize.BOOLEAN,
-        password: Sequelize.VIRTUAL,
+        likes: Sequelize.ARRAY(Sequelize.INTEGER),
+        dislikes: Sequelize.ARRAY(Sequelize.INTEGER),
         password_hash: Sequelize.STRING,
-        admin: Sequelize.BOOLEAN,
+        password: Sequelize.VIRTUAL,
       },
       {
         sequelize,
