@@ -15,11 +15,57 @@ class GetOnlineController {
       oppositeSex = 'F';
     }
 
-    let users = await User.findAll({ where: { [Op.and]: [{ online: true }, { sex: `${oppositeSex}` }] }, attributes: ['id', 'name', 'bio', 'sex', 'filename'] });
+    if (user.likes === null && user.dislikes === null) {
+      const users = await User.findAll({
+        where: {
+          [Op.and]: [{ online: true }, { sex: `${oppositeSex}` }],
+        },
+        attributes: ['id', 'name', 'bio', 'sex', 'filename'],
+      });
 
-    users = users.map((index) => index.dataValues);
+      const usersValues = users.map((index) => index.dataValues);
 
-    return res.json({ users });
+      return res.json({ usersValues });
+    }
+
+    if (user.likes !== null && user.dislikes === null) {
+      const users = await User.findAll({
+        where: {
+          [Op.and]: [{ id: { [Op.notIn]: user.likes } }, { online: true }, { sex: `${oppositeSex}` }],
+        },
+        attributes: ['id', 'name', 'bio', 'sex', 'filename'],
+      });
+
+      const usersValues = users.map((index) => index.dataValues);
+
+      return res.json({ usersValues });
+    }
+
+    if (user.likes === null && user.dislikes !== null) {
+      const users = await User.findAll({
+        where: {
+          [Op.and]: [{ id: { [Op.notIn]: user.dislikes } }, { online: true }, { sex: `${oppositeSex}` }],
+        },
+        attributes: ['id', 'name', 'bio', 'sex', 'filename'],
+      });
+
+      const usersValues = users.map((index) => index.dataValues);
+
+      return res.json({ usersValues });
+    }
+
+    if (user.likes !== null && user.dislikes !== null) {
+      const users = await User.findAll({
+        where: {
+          [Op.and]: [{ id: { [Op.notIn]: user.likes } }, { id: { [Op.notIn]: user.dislikes } }, { online: true }, { sex: `${oppositeSex}` }],
+        },
+        attributes: ['id', 'name', 'bio', 'sex', 'filename'],
+      });
+
+      const usersValues = users.map((index) => index.dataValues);
+
+      return res.json({ usersValues });
+    }
   }
 }
 

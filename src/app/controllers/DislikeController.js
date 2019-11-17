@@ -1,7 +1,7 @@
 import sequelize from 'sequelize';
 import User from '../models/User';
 
-class LikeController {
+class DislikeController {
   async store(req, res) {
     const { id } = req.params;
 
@@ -18,7 +18,7 @@ class LikeController {
     }
 
     await loggedUser.update(
-      { likes: sequelize.fn('array_append', sequelize.col('likes'), idNumber) },
+      { likes: sequelize.fn('array_append', sequelize.col('dislikes'), idNumber) },
       { where: { id: req.userId } },
     );
 
@@ -27,4 +27,4 @@ class LikeController {
   }
 }
 
-export default new LikeController();
+export default new DislikeController();

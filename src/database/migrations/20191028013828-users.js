@@ -44,7 +44,7 @@ module.exports = {
     likes: {
       type: Sequelize.ARRAY(Sequelize.INTEGER),
     },
-    deslikes: {
+    dislikes: {
       type: Sequelize.ARRAY(Sequelize.INTEGER),
     },
     password_hash: {
