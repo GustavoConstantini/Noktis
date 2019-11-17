@@ -7,13 +7,13 @@ class GetDistanciaController {
 
     const idNumber = Number(id);
 
-    const { dataValues: user } = await User.findOne({ where: { id: req.userId }, attributes: ['latitude', 'longitude'] });
+    const { dataValues: loggedUser } = await User.findOne({ where: { id: req.userId }, attributes: ['latitude', 'longitude'] });
 
-    const { dataValues: getUser } = await User.findOne({ where: { id: idNumber }, attributes: ['latitude', 'longitude'] });
+    const { dataValues: targetUser } = await User.findOne({ where: { id: idNumber }, attributes: ['latitude', 'longitude'] });
 
 
-    const { latitude: lat1, longitude: lon1 } = user;
-    const { latitude: lat2, longitude: lon2 } = getUser;
+    const { latitude: lat1, longitude: lon1 } = loggedUser;
+    const { latitude: lat2, longitude: lon2 } = targetUser;
 
 
     const distancia = Distancia(Number(lat1), Number(lon1),

@@ -27,7 +27,7 @@ routes.post('/location/send', LocationController.store);
 
 routes.post('/upload/file', upload.single('file'), FileController.store);
 
-routes.get('/users/online', GetOnlineController.store);
+routes.get('/users/online', GetOnlineController.index);
 
 routes.get('/users/online/:id', GetDistanciaController.store);
 

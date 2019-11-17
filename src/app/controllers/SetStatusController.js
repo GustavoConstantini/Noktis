@@ -7,11 +7,11 @@ class SetStatusController {
 
     const { online } = req.body;
 
-    if (online.toUpperCase() !== 'FALSE' && online.toUpperCase() !== 'TRUE') {
+    if (online.toUpperCase() !== 'FALSE' && online.toUpperCase() !== 'TRUE' && online !== false && online !== true) {
       return res.status(400).json({ error: 'status invalido' });
     }
 
-    if (online.toUpperCase() === 'FALSE') {
+    if (online.toUpperCase() === 'FALSE' || online === false) {
       setTimeout(async () => {
         await user.update(req.body);
 

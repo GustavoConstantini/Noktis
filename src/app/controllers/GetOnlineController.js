@@ -2,7 +2,7 @@ import { Op } from 'sequelize';
 import User from '../models/User';
 
 class GetOnlineController {
-  async store(req, res) {
+  async index(req, res) {
     const user = await User.findByPk(req.userId);
 
     const { sex } = user;

@@ -41,13 +41,14 @@ module.exports = {
       defaultValue: false,
       allowNull: false,
     },
+    likes: {
+      type: Sequelize.ARRAY(Sequelize.INTEGER),
+    },
+    deslikes: {
+      type: Sequelize.ARRAY(Sequelize.INTEGER),
+    },
     password_hash: {
       type: Sequelize.STRING,
-      allowNull: false,
-    },
-    admin: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: false,
       allowNull: false,
     },
     created_at: {
