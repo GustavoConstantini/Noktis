@@ -5,21 +5,24 @@ class SetStatusController {
   async store(req, res) {
     const user = await User.findByPk(req.userId);
 
+    req.body.online = req.body.online.toLowerCase();
+
     const { online } = req.body;
 
-    if (online.toUpperCase() !== 'FALSE' && online.toUpperCase() !== 'TRUE' && online !== false && online !== true) {
+    if (online !== 'false' && online !== 'true' && online !== false && online !== true) {
       return res.status(400).json({ error: 'status invalido' });
     }
 
-    if (online.toUpperCase() === 'FALSE' || online === false) {
+    if (online === 'false' || online === false) {
       setTimeout(async () => {
         await user.update(req.body);
+        console.log('jaja');
 
         return res.json({ ok: 'status atualizado' });
-      }, 30000);
+      }, 120000);
     }
 
-    if (online.toUpperCase() === 'TRUE') {
+    if (online === 'true' || online === true) {
       await user.update(req.body);
 
       return res.json({ ok: 'status atualizado' });

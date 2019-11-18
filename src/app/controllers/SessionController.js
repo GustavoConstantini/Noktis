@@ -44,8 +44,6 @@ class SessionConstroller {
         latitude,
         longitude,
         email,
-        latitude,
-        longitude,
       },
       token: jwt.sign({ id }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,

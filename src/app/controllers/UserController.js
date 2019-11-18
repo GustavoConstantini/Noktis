@@ -36,6 +36,9 @@ class UserController {
     if (userExists) {
       return res.status(400).json({ error: 'Este usuário já existe' });
     }
+
+    req.body.sex = sex.toUpperCase();
+
     const {
       id, name, bio, email, filename, latitude, longitude,
     } = await User.create(req.body);
@@ -44,7 +47,7 @@ class UserController {
       user: {
         id,
         name,
-        sex,
+        sex: req.body.sex,
         bio,
         filename,
         latitude,
@@ -70,6 +73,8 @@ class UserController {
       confirmPassword: Yup.string().when('password', (password, field) => (password ? field.required().oneOf([Yup.ref('password')]) : field)),
     });
 
+    req.body.sex = req.body.sex.toUpperCase();
+
     const { sex } = req.body;
 
     if (!(await schema.isValid(req.body))) {
@@ -77,7 +82,7 @@ class UserController {
     }
 
     if (sex) {
-      if (sex.toUpperCase() !== 'F' && sex.toUpperCase() !== 'M') {
+      if (sex !== 'F' && sex !== 'M') {
         return res.status(400).json({ error: 'Falha ao validar ' });
       }
     }

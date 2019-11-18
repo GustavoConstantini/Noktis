@@ -6,11 +6,12 @@ import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import LocationController from './app/controllers/LocationController';
 import FileController from './app/controllers/FileController';
-import GetOnlineController from './app/controllers/GetOnlineController';
+import OnlineController from './app/controllers/OnlineController';
 import SetStatusController from './app/controllers/SetStatusController';
-import GetDistanciaController from './app/controllers/GetDistanciaController';
+import DistanciaController from './app/controllers/DistanciaController';
 import LikeController from './app/controllers/LikeController';
 import DislikeController from './app/controllers/DislikeController';
+
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -29,14 +30,13 @@ routes.post('/location/send', LocationController.store);
 
 routes.post('/upload/file', upload.single('file'), FileController.store);
 
-routes.get('/users/online', GetOnlineController.index);
+routes.get('/users/online', OnlineController.index);
 
-routes.get('/users/online/:id', GetDistanciaController.store);
+routes.post('/users/distancia/', DistanciaController.store);
 
-routes.post('/users/dislikes', LikeController.store);
+routes.post('/users/dislikes', DislikeController.store);
 
-routes.post('/users/likes', DislikeController.store);
-
+routes.post('/users/likes', LikeController.store);
 
 routes.post('/set/status', SetStatusController.store);
 

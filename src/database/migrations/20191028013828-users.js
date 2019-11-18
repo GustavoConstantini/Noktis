@@ -29,11 +29,11 @@ module.exports = {
       unique: true,
     },
     latitude: {
-      type: Sequelize.STRING,
+      type: Sequelize.DOUBLE,
       defaultValue: null,
     },
     longitude: {
-      type: Sequelize.STRING,
+      type: Sequelize.DOUBLE,
       defaultValue: null,
     },
     online: {

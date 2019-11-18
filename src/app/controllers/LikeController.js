@@ -5,11 +5,9 @@ class LikeController {
   async store(req, res) {
     const { id } = req.body;
 
-    const idNumber = Number(id);
-
     const loggedUser = await User.findByPk(req.userId);
 
-    const { dataValues: targetUser } = await User.findOne({ where: { id: idNumber }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt'] } });
+    const { dataValues: targetUser } = await User.findOne({ where: { id }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt'] } });
 
     if (targetUser.likes !== null) {
       if (targetUser.likes.includes(loggedUser.id)) {
@@ -18,7 +16,7 @@ class LikeController {
     }
 
     await loggedUser.update(
-      { likes: sequelize.fn('array_append', sequelize.col('likes'), idNumber) },
+      { likes: sequelize.fn('array_append', sequelize.col('likes'), id) },
       { where: { id: req.userId } },
     );
 
