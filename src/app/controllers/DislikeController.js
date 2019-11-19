@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import sequelize from 'sequelize';
 import User from '../models/User';
 
