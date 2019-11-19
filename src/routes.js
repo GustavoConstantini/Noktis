@@ -9,8 +9,8 @@ import FileController from './app/controllers/FileController';
 import OnlineController from './app/controllers/OnlineController';
 import SetStatusController from './app/controllers/SetStatusController';
 import DistanciaController from './app/controllers/DistanciaController';
-import LikeController from './app/controllers/LikeController';
 import DislikeController from './app/controllers/DislikeController';
+import LikeController from './app/controllers/LikeController';
 
 
 import authMiddleware from './app/middlewares/auth';
@@ -32,7 +32,7 @@ routes.post('/upload/file', upload.single('file'), FileController.store);
 
 routes.get('/users/online', OnlineController.index);
 
-routes.post('/users/distancia/', DistanciaController.store);
+routes.post('/users/distancia', DistanciaController.store);
 
 routes.post('/users/dislikes', DislikeController.store);
 

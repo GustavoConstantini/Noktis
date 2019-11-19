@@ -5,25 +5,20 @@ class DislikeController {
   async store(req, res) {
     const { id } = req.body;
 
-    const idNumber = Number(id);
-
     const loggedUser = await User.findByPk(req.userId);
 
-    const { dataValues: targetUser } = await User.findOne({ where: { id: idNumber }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt'] } });
+    try {
+      const { dataValues: targetUser } = await User.findOne({ where: { id }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt'] } });
 
-    if (targetUser.likes !== null) {
-      if (targetUser.likes.includes(loggedUser.id)) {
-        console.log('Deu MATCH');
-      }
+      await loggedUser.update(
+        { dislikes: sequelize.fn('array_append', sequelize.col('likes'), id) },
+        { where: { id: req.userId } },
+      );
+    } catch (error) {
+      return res.status(400).json({ error: 'O usuario nao existe' });
     }
 
-    await loggedUser.update(
-      { likes: sequelize.fn('array_append', sequelize.col('dislikes'), idNumber) },
-      { where: { id: req.userId } },
-    );
-
-
-    return res.json(loggedUser);
+    return res.status(200).json({ ok: true });
   }
 }
 
