@@ -17,7 +17,7 @@ class GetDistanciaController {
     const distancia = Distancia(lat1, lon1,
       lat2, lon2);
 
-    return res.json({ distancia });
+    return res.status(200).json({ distancia });
   }
 }
 

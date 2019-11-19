@@ -22,7 +22,7 @@ class LikeController {
         { where: { id: req.userId } },
       );
     } catch (error) {
-      return res.status(400).json({ error: 'O usuario nao existe' });
+      return res.status(404).json({ error: 'O usuario nao existe' });
     }
 
     return res.status(200).json({ ok: true });

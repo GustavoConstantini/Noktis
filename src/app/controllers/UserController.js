@@ -99,14 +99,14 @@ class UserController {
     }
 
     if (oldPassword && !(await user.checkPassword(oldPassword))) {
-      return res.status(401).json({ error: 'As senhas não batem ' });
+      return res.status(400).json({ error: 'As senhas não batem ' });
     }
 
     const {
       id, name, bio,
     } = await user.update(req.body);
 
-    return res.json({
+    return res.status(200).json({
       id, name, sex, bio, email,
     });
   }

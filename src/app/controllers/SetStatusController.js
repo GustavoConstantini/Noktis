@@ -19,14 +19,14 @@ class SetStatusController {
         await user.update(req.body);
         console.log('jaja');
 
-        return res.json({ ok: 'status atualizado' });
+        return res.status(200).json({ ok: 'status atualizado' });
       }, 120000);
     }
 
     if (online === 'true' || online === true) {
       await user.update(req.body);
 
-      return res.json({ ok: 'status atualizado' });
+      return res.status(200).json({ ok: 'status atualizado' });
     }
   }
 }
