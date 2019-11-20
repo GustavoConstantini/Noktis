@@ -76,17 +76,14 @@ class UserController {
   async update(req, res) {
     const schema = Yup.object().shape({
       email: Yup.string()
-        .email()
-        .required()
-        .max(70),
+        .email(),
       name: Yup.string()
         .max(40),
       sex: Yup.string()
         .max(1),
       bio: Yup.string()
         .max(150),
-      oldPassword: Yup.string()
-        .min(5),
+      oldPassword: Yup.string(),
       password: Yup.string()
         .min(5)
         .max(64)
@@ -111,11 +108,13 @@ class UserController {
 
     const user = await User.findByPk(req.userId);
 
-    if (email !== user.email) {
-      const userExists = await User.findOne({ where: { email } });
+    if (email) {
+      if (email !== user.email) {
+        const userExists = await User.findOne({ where: { email } });
 
-      if (userExists) {
-        return res.status(400).json({ error: 'Este usuário já existe ' });
+        if (userExists) {
+          return res.status(400).json({ error: 'Este usuário já existe ' });
+        }
       }
     }
 
