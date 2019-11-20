@@ -1,10 +1,11 @@
-/* eslint-disable no-console */
-/* eslint-disable consistent-return */
 import User from '../models/User';
 
 class SetStatusController {
   async store(req, res) {
     const user = await User.findByPk(req.userId);
+    if (!req.body.online) {
+      return res.status(400).json({ error: 'Erro ao passar o parametro' });
+    }
 
     req.body.online = req.body.online.toLowerCase();
 
@@ -17,7 +18,6 @@ class SetStatusController {
     if (online === 'false' || online === false) {
       setTimeout(async () => {
         await user.update(req.body);
-        console.log('jaja');
 
         return res.status(200).json({ ok: 'status atualizado' });
       }, 120000);

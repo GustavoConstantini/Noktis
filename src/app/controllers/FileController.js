@@ -8,7 +8,7 @@ class FileController {
 
     await user.update(req.file);
 
-    return res.json({ filename });
+    return res.status(200).json({ filename });
   }
 }
 export default new FileController();

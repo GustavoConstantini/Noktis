@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import sequelize from 'sequelize';
 import User from '../models/User';
 
@@ -12,7 +11,7 @@ class DislikeController {
       const { dataValues: targetUser } = await User.findOne({ where: { id }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt'] } });
 
       await loggedUser.update(
-        { dislikes: sequelize.fn('array_append', sequelize.col('dislikes'), id) },
+        { dislikes: sequelize.fn('array_append', sequelize.col('dislikes'), targetUser.id) },
         { where: { id: req.userId } },
       );
     } catch (error) {

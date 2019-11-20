@@ -39,6 +39,12 @@ class UserController {
 
     req.body.sex = sex.toUpperCase();
 
+    if (req.body.sex === 'F') {
+      req.body.filename = 'default_avatar_female.jpg';
+    } else {
+      req.body.filename = 'default_avatar_male.jpg';
+    }
+
     const {
       id, name, bio, email, filename, latitude, longitude,
     } = await User.create(req.body);
@@ -73,8 +79,6 @@ class UserController {
       confirmPassword: Yup.string().when('password', (password, field) => (password ? field.required().oneOf([Yup.ref('password')]) : field)),
     });
 
-    req.body.sex = req.body.sex.toUpperCase();
-
     const { sex } = req.body;
 
     if (!(await schema.isValid(req.body))) {
@@ -82,6 +86,7 @@ class UserController {
     }
 
     if (sex) {
+      req.body.sex = req.body.sex.toUpperCase();
       if (sex !== 'F' && sex !== 'M') {
         return res.status(400).json({ error: 'Falha ao validar ' });
       }
@@ -99,7 +104,7 @@ class UserController {
     }
 
     if (oldPassword && !(await user.checkPassword(oldPassword))) {
-      return res.status(400).json({ error: 'As senhas não batem ' });
+      return res.status(400).json({ error: 'As senhas não coincidem' });
     }
 
     const {

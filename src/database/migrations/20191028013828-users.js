@@ -20,8 +20,8 @@ module.exports = {
     },
     filename: {
       type: Sequelize.STRING,
-      defaultValue: null,
-      unique: true,
+      allowNull: false,
+      unique: false,
     },
     email: {
       type: Sequelize.STRING,

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import sequelize from 'sequelize';
 import User from '../models/User';
 
@@ -18,11 +17,11 @@ class LikeController {
       }
 
       await loggedUser.update(
-        { likes: sequelize.fn('array_append', sequelize.col('likes'), id) },
+        { likes: sequelize.fn('array_append', sequelize.col('likes'), targetUser.id) },
         { where: { id: req.userId } },
       );
     } catch (error) {
-      return res.status(404).json({ error: 'O usuario nao existe' });
+      return res.status(404).json({ error: 'O usuário não existe' });
     }
 
     return res.status(200).json({ ok: true });

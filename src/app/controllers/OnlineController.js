@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import { Op } from 'sequelize';
 import User from '../models/User';
 
