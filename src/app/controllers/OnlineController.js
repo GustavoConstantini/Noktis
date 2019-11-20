@@ -38,7 +38,7 @@ class GetOnlineController {
 
       const usersValues = users.map((index) => index.dataValues);
 
-      return res.json({ usersValues });
+      return res.status(200).json({ usersValues });
     }
 
     if (user.likes === null && user.dislikes !== null) {
@@ -51,7 +51,7 @@ class GetOnlineController {
 
       const usersValues = users.map((index) => index.dataValues);
 
-      return res.json({ usersValues });
+      return res.status(200).json({ usersValues });
     }
 
     if (user.likes !== null && user.dislikes !== null) {
@@ -64,7 +64,7 @@ class GetOnlineController {
 
       const usersValues = users.map((index) => index.dataValues);
 
-      return res.json({ usersValues });
+      return res.status(200).json({ usersValues });
     }
   }
 }

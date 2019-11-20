@@ -7,17 +7,24 @@ import authConfig from '../../config/auth';
 class UserController {
   async store(req, res) {
     const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      sex: Yup.string().required(),
-      bio: Yup.string().required(),
+      name: Yup.string()
+        .required()
+        .max(40),
+      sex: Yup.string()
+        .required()
+        .max(1),
+      bio: Yup.string()
+        .required()
+        .max(150),
       latitude: Yup.string(),
       longitude: Yup.string(),
       email: Yup.string()
         .email()
-        .required(),
+        .required()
+        .max(70),
       password: Yup.string()
         .required()
-        .min(1),
+        .min(5),
     });
 
     const { sex } = req.body;
@@ -68,22 +75,31 @@ class UserController {
 
   async update(req, res) {
     const schema = Yup.object().shape({
-      email: Yup.string().email().required(),
-      name: Yup.string(),
-      sex: Yup.string(),
-      bio: Yup.string(),
-      oldPassword: Yup.string().min(1),
+      email: Yup.string()
+        .email()
+        .required()
+        .max(70),
+      name: Yup.string()
+        .max(40),
+      sex: Yup.string()
+        .max(1),
+      bio: Yup.string()
+        .max(150),
+      oldPassword: Yup.string()
+        .min(5),
       password: Yup.string()
-        .min(1)
+        .min(5)
+        .max(64)
         .when('oldPassword', (oldPassword, field) => (oldPassword ? field.required() : field)),
       confirmPassword: Yup.string().when('password', (password, field) => (password ? field.required().oneOf([Yup.ref('password')]) : field)),
     });
 
-    const { sex } = req.body;
-
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Falha ao validar ' });
     }
+
+    const { sex } = req.body;
+
 
     if (sex) {
       req.body.sex = req.body.sex.toUpperCase();
