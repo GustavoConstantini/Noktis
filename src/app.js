@@ -13,11 +13,11 @@ class App {
     this.connectedUsers = {};
 
     this.io.on('connection', (socket) => {
-      console.log(socket.handshake.query);
       const { user } = socket.handshake.query;
 
-
       this.connectedUsers[user] = socket.id;
+
+      console.log(socket.handshake.query, socket.id, this.connectedUsers);
     });
 
     this.middlewares();
