@@ -12,7 +12,16 @@ class LikeController {
 
       if (targetUser.likes !== null) {
         if (targetUser.likes.includes(loggedUser.id)) {
-          console.log('Deu MATCH');
+          const loggedSocket = req.connectedUsers[req.userId];
+          const targetSocket = req.connectedUsers[id];
+
+          if (loggedSocket) {
+            req.io.to(loggedSocket).emit('match', targetUser);
+          }
+
+          if (targetSocket) {
+            req.io.to(targetSocket).emit('match', loggedSocket);
+          }
         }
       }
 

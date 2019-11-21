@@ -1,23 +1,42 @@
 import express from 'express';
+import http from 'http';
+import io from 'socket.io';
 import routes from './routes';
 import './database';
 
 class App {
   constructor() {
-    this.server = express();
+    this.app = express();
+    this.server = http.Server(this.app);
+    this.io = io(this.server);
+
+    this.connectedUsers = {};
+
+    this.io.on('connection', (socket) => {
+      console.log(socket.handshake.query);
+      const { user } = socket.handshake.query;
+
+
+      this.connectedUsers[user] = socket.id;
+    });
 
     this.middlewares();
     this.routes();
   }
 
   middlewares() {
-    this.server.use(express.json());
-    this.server.use('/uploads', express.static('uploads'));
+    this.app.use((req, res, next) => {
+      req.io = this.io;
+      req.connectedUsers = this.connectedUsers;
+      return next();
+    });
+    this.app.use(express.json());
+    this.app.use('/uploads', express.static('uploads'));
   }
 
   routes() {
-    this.server.use(routes);
+    this.app.use(routes);
   }
 }
 
-export default new App().server;
+export default new App().app;
