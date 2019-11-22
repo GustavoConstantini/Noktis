@@ -3,11 +3,11 @@ import User from '../models/User';
 
 class LikeController {
   async store(req, res) {
-    const { id } = req.body;
-
-    const loggedUser = await User.findByPk(req.userId);
-
     try {
+      const { id } = req.body;
+  
+      const loggedUser = await User.findByPk(req.userId);
+
       const { dataValues: targetUser } = await User.findOne({ where: { id }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt'] } });
 
       if (targetUser.likes !== null) {
@@ -20,7 +20,7 @@ class LikeController {
           }
 
           if (targetSocket) {
-            req.io.to(targetSocket).emit('match', loggedSocket);
+            req.io.to(targetSocket).emit('match', loggedUser);
           }
         }
       }
