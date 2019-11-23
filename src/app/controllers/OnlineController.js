@@ -20,7 +20,7 @@ class GetOnlineController {
         where: {
           [Op.and]: [{ online: true }, { sex: `${oppositeSex}` }],
         },
-        attributes: ['id', 'name', 'bio', 'sex', 'filename'],
+        attributes: ['id', 'name', 'age', 'bio', 'sex', 'filename'],
       });
 
       const usersValues = users.map((index) => index.dataValues);
@@ -33,7 +33,7 @@ class GetOnlineController {
         where: {
           [Op.and]: [{ id: { [Op.notIn]: user.likes } }, { online: true }, { sex: `${oppositeSex}` }],
         },
-        attributes: ['id', 'name', 'bio', 'sex', 'filename'],
+        attributes: ['id', 'name', 'age', 'bio', 'sex', 'filename'],
       });
 
       const usersValues = users.map((index) => index.dataValues);
@@ -46,7 +46,7 @@ class GetOnlineController {
         where: {
           [Op.and]: [{ id: { [Op.notIn]: user.dislikes } }, { online: true }, { sex: `${oppositeSex}` }],
         },
-        attributes: ['id', 'name', 'bio', 'sex', 'filename'],
+        attributes: ['id', 'name', 'age', 'bio', 'sex', 'filename'],
       });
 
       const usersValues = users.map((index) => index.dataValues);
@@ -59,7 +59,7 @@ class GetOnlineController {
         where: {
           [Op.and]: [{ id: { [Op.notIn]: user.likes } }, { id: { [Op.notIn]: user.dislikes } }, { online: true }, { sex: `${oppositeSex}` }],
         },
-        attributes: ['id', 'name', 'bio', 'sex', 'filename'],
+        attributes: ['id', 'name', 'age', 'bio', 'sex', 'filename'],
       });
 
       const usersValues = users.map((index) => index.dataValues);

@@ -10,6 +10,11 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false,
     },
+    age: {
+      type: Sequelize.INTEGER,
+      defaultValue: 18,
+      allowNull: false,
+    },
     sex: {
       type: Sequelize.STRING,
       allowNull: false,

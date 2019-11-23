@@ -10,6 +10,11 @@ class UserController {
       name: Yup.string()
         .required()
         .max(40),
+      age: Yup.number()
+        .required()
+        .positive()
+        .integer()
+        .min(18),
       sex: Yup.string()
         .required()
         .max(1),
@@ -27,6 +32,8 @@ class UserController {
         .min(5),
     });
 
+    req.body.sex = req.body.sex.toUpperCase();
+
     const { sex } = req.body;
 
 
@@ -34,7 +41,7 @@ class UserController {
       return res.status(400).json({ error: 'Falha ao validar' });
     }
 
-    if (sex.toUpperCase() !== 'F' && sex.toUpperCase() !== 'M') {
+    if (sex !== 'F' && sex !== 'M') {
       return res.status(400).json({ error: 'Falha ao validar' });
     }
 
@@ -44,8 +51,6 @@ class UserController {
       return res.status(400).json({ error: 'Este usuário já existe' });
     }
 
-    req.body.sex = sex.toUpperCase();
-
     if (req.body.sex === 'F') {
       req.body.filename = 'default_avatar_female.jpg';
     } else {
@@ -53,13 +58,14 @@ class UserController {
     }
 
     const {
-      id, name, bio, email, filename, latitude, longitude,
+      id, name, age, bio, email, filename, latitude, longitude,
     } = await User.create(req.body);
 
     return res.json({
       user: {
         id,
         name,
+        age,
         sex: req.body.sex,
         bio,
         filename,
@@ -79,6 +85,10 @@ class UserController {
         .email(),
       name: Yup.string()
         .max(40),
+      age: Yup.number()
+        .positive()
+        .integer()
+        .min(18),
       sex: Yup.string()
         .max(1),
       bio: Yup.string()
@@ -94,16 +104,13 @@ class UserController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Falha ao validar ' });
     }
-
-    const { sex } = req.body;
-
-
-    if (sex) {
+    if (req.body.sex) {
       req.body.sex = req.body.sex.toUpperCase();
-      if (sex !== 'F' && sex !== 'M') {
+      if (req.body.sex !== 'F' && req.body.sex !== 'M') {
         return res.status(400).json({ error: 'Falha ao validar ' });
       }
     }
+
     const { email, oldPassword } = req.body;
 
     const user = await User.findByPk(req.userId);
@@ -123,11 +130,11 @@ class UserController {
     }
 
     const {
-      id, name, bio,
+      id, name, age, sex, bio,
     } = await user.update(req.body);
 
     return res.status(200).json({
-      id, name, sex, bio, email,
+      id, name, age, sex, bio, email,
     });
   }
 }

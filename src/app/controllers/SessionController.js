@@ -27,17 +27,18 @@ class SessionConstroller {
     }
 
     if (!(await user.checkPassword(password))) {
-      return res.status(400).json({ error: 'Senha incorreta' });
+      return res.status(403).json({ error: 'Senha incorreta' });
     }
 
     const {
-      id, name, sex, bio, filename, latitude, longitude,
+      id, name, age, sex, bio, filename, latitude, longitude,
     } = user;
 
     return res.json({
       user: {
         id,
         name,
+        age,
         sex,
         bio,
         filename,
