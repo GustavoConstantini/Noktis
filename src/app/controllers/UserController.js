@@ -31,12 +31,17 @@ class UserController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      console.log(1);
       return res.status(400).json({ error: 'Falha ao validar' });
     }
 
     if (!(checkAge(req.body.birth_timestamp))) {
       return res.status(400).json({ error: 'Menor de idade' });
+    }
+
+    const userExists = await User.findOne({ where: { email: req.body.email } });
+
+    if (userExists) {
+      return res.status(400).json({ error: 'Este usuário já existe' });
     }
 
     req.body.sex = req.body.sex.toUpperCase();
@@ -45,12 +50,6 @@ class UserController {
 
     if (sex !== 'F' && sex !== 'M') {
       return res.status(400).json({ error: 'Falha ao validar' });
-    }
-
-    const userExists = await User.findOne({ where: { email: req.body.email } });
-
-    if (userExists) {
-      return res.status(400).json({ error: 'Este usuário já existe' });
     }
 
     if (req.body.sex === 'F') {
@@ -85,13 +84,6 @@ class UserController {
     const schema = Yup.object().shape({
       email: Yup.string()
         .email(),
-      name: Yup.string()
-        .max(40),
-      birth_timestamp: Yup.number()
-        .positive()
-        .integer(),
-      sex: Yup.string()
-        .max(1),
       bio: Yup.string()
         .max(150),
       oldPassword: Yup.string(),
@@ -104,19 +96,6 @@ class UserController {
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Falha ao validar ' });
-    }
-
-    if (req.body.sex) {
-      req.body.sex = req.body.sex.toUpperCase();
-      if (req.body.sex !== 'F' && req.body.sex !== 'M') {
-        return res.status(400).json({ error: 'Falha ao validar ' });
-      }
-    }
-
-    if (req.body.birthTimestamp) {
-      if (!(checkAge(req.body.birth_timestamp))) {
-        return res.status(400).json({ error: 'Menor de idade' });
-      }
     }
 
     const { email, oldPassword } = req.body;
@@ -138,11 +117,11 @@ class UserController {
     }
 
     const {
-      id, name, age, sex, bio,
+      id, name, birth_timestamp, sex, bio,
     } = await user.update(req.body);
 
     return res.status(200).json({
-      id, name, age, sex, bio, email,
+      id, name, birth_timestamp, sex, bio, email,
     });
   }
 }

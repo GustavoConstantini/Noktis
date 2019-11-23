@@ -11,8 +11,7 @@ module.exports = {
       allowNull: false,
     },
     birth_timestamp: {
-      type: Sequelize.INTEGER,
-      defaultValue: 18,
+      type: Sequelize.BIGINT,
       allowNull: false,
     },
     sex: {

@@ -6,7 +6,7 @@ class User extends Model {
     super.init(
       {
         name: Sequelize.STRING,
-        birth_timestamp: Sequelize.INTEGER,
+        birth_timestamp: Sequelize.BIGINT,
         sex: Sequelize.STRING,
         bio: Sequelize.STRING,
         filename: Sequelize.STRING,
