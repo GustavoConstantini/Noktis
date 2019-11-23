@@ -10,7 +10,7 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    age: {
+    birth_timestamp: {
       type: Sequelize.INTEGER,
       defaultValue: 18,
       allowNull: false,

@@ -1,4 +1,4 @@
-import Distancia from '../../config/distancia';
+import Distancia from '../functions/distancia';
 import User from '../models/User';
 
 class GetDistanciaController {

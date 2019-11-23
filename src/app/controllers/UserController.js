@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 
 import User from '../models/User';
 import authConfig from '../../config/auth';
+import checkAge from '../functions/ckeckAge';
 
 class UserController {
   async store(req, res) {
@@ -10,11 +11,8 @@ class UserController {
       name: Yup.string()
         .required()
         .max(40),
-      age: Yup.number()
-        .required()
-        .positive()
-        .integer()
-        .min(18),
+      birth_timestamp: Yup.number()
+        .required(),
       sex: Yup.string()
         .required()
         .max(1),
@@ -32,14 +30,18 @@ class UserController {
         .min(5),
     });
 
+    if (!(await schema.isValid(req.body))) {
+      console.log(1);
+      return res.status(400).json({ error: 'Falha ao validar' });
+    }
+
+    if (!(checkAge(req.body.birth_timestamp))) {
+      return res.status(400).json({ error: 'Menor de idade' });
+    }
+
     req.body.sex = req.body.sex.toUpperCase();
 
     const { sex } = req.body;
-
-
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Falha ao validar' });
-    }
 
     if (sex !== 'F' && sex !== 'M') {
       return res.status(400).json({ error: 'Falha ao validar' });
@@ -58,14 +60,14 @@ class UserController {
     }
 
     const {
-      id, name, age, bio, email, filename, latitude, longitude,
+      id, name, birth_timestamp, bio, email, filename, latitude, longitude,
     } = await User.create(req.body);
 
     return res.json({
       user: {
         id,
         name,
-        age,
+        birth_timestamp,
         sex: req.body.sex,
         bio,
         filename,
@@ -85,10 +87,9 @@ class UserController {
         .email(),
       name: Yup.string()
         .max(40),
-      age: Yup.number()
+      birth_timestamp: Yup.number()
         .positive()
-        .integer()
-        .min(18),
+        .integer(),
       sex: Yup.string()
         .max(1),
       bio: Yup.string()
@@ -104,10 +105,17 @@ class UserController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Falha ao validar ' });
     }
+
     if (req.body.sex) {
       req.body.sex = req.body.sex.toUpperCase();
       if (req.body.sex !== 'F' && req.body.sex !== 'M') {
         return res.status(400).json({ error: 'Falha ao validar ' });
+      }
+    }
+
+    if (req.body.birthTimestamp) {
+      if (!(checkAge(req.body.birth_timestamp))) {
+        return res.status(400).json({ error: 'Menor de idade' });
       }
     }
 
