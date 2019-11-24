@@ -6,6 +6,7 @@ import authConfig from '../../config/auth';
 export default async (socket, next) => {
   console.log(socket.handshake.query.token, '\n', socket.handshake.query.user);
   if (!(socket.handshake.query.token || socket.handshake.query.user)) {
+    console.log('erro ao passar os parametros');
     return next(new Error('falha ao validar'));
   }
   try {
@@ -15,6 +16,7 @@ export default async (socket, next) => {
 
     return next();
   } catch (error) {
+    console.log(error, '\n erro do catch');
     return next(new Error('falha ao validar'));
   }
 };
