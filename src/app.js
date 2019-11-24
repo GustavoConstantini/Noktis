@@ -14,7 +14,6 @@ class App {
 
     this.connectedUsers = {};
     this.io.on('connection', (socket) => {
-      console.log('deu certo', socket.id);
       const { user } = socket.handshake.query;
 
       this.connectedUsers[user] = socket.id;
