@@ -1,7 +1,9 @@
 import express from 'express';
 import http from 'http';
 import io from 'socket.io';
+import ioConfig from './app/middlewares/io';
 import routes from './routes';
+
 import './database';
 
 class App {
@@ -11,12 +13,12 @@ class App {
     this.io = io(this.server);
 
     this.connectedUsers = {};
+    this.io.use(ioConfig)
+      .this.io.on('connection', (socket) => {
+        const { user } = socket.handshake.query;
 
-    this.io.on('connection', (socket) => {
-      const { user } = socket.handshake.query;
-
-      this.connectedUsers[user] = socket.id;
-    });
+        this.connectedUsers[user] = socket.id;
+      });
 
     this.middlewares();
     this.routes();
