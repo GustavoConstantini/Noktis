@@ -10,15 +10,14 @@ class App {
   constructor() {
     this.app = express();
     this.server = http.Server(this.app);
-    this.io = io(this.server);
+    this.io = io(this.server).use(ioConfig);
 
     this.connectedUsers = {};
-    this.io.use(ioConfig)
-      .this.io.on('connection', (socket) => {
-        const { user } = socket.handshake.query;
+    this.io.on('connection', (socket) => {
+      const { user } = socket.handshake.query;
 
-        this.connectedUsers[user] = socket.id;
-      });
+      this.connectedUsers[user] = socket.id;
+    });
 
     this.middlewares();
     this.routes();
