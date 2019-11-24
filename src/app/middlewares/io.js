@@ -4,7 +4,7 @@ import { promisify } from 'util';
 import authConfig from '../../config/auth';
 
 export default async (socket, next) => {
-  console.log(socket.handshake.query.token || socket.handshake.query.user);
+  console.log(socket.handshake.query.token, '\n', socket.handshake.query.user);
   if (!(socket.handshake.query.token || socket.handshake.query.user)) {
     return next(new Error('falha ao validar'));
   }
