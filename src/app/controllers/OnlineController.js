@@ -60,7 +60,7 @@ class GetOnlineController {
         where: {
           [Op.and]: [{ id: { [Op.notIn]: user.likes } }, { id: { [Op.notIn]: user.dislikes } }, { online: true }, { sex: `${oppositeSex}` }],
         },
-        attributes: ['id', 'name', 'abirth_timestamp', 'bio', 'sex', 'filename'],
+        attributes: ['id', 'name', 'birth_timestamp', 'bio', 'sex', 'filename'],
       });
 
       const usersValues = users.map((index) => index.dataValues);
