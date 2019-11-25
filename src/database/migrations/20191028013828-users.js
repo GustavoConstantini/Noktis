@@ -51,6 +51,10 @@ module.exports = {
     dislikes: {
       type: Sequelize.ARRAY(Sequelize.INTEGER),
     },
+    matches: {
+      type: Sequelize.ARRAY(Sequelize.INTEGER),
+      allowNull: true,
+    },
     socket: {
       type: Sequelize.STRING,
       allowNull: true,

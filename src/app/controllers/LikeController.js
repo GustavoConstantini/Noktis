@@ -9,7 +9,7 @@ class LikeController {
       }
       const { id } = req.body;
 
-      const loggedUser = await User.findByPk(req.userId);
+      const loggedUser = User.findOne({ where: { id: req.userId }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt'] } });
 
       loggedUser.socket = req.socketIo;
 
@@ -19,6 +19,11 @@ class LikeController {
 
       if (targetUser.likes !== null) {
         if (targetUser.likes.includes(loggedUser.id)) {
+          await loggedUser.update(
+            { matches: sequelize.fn('array_append', sequelize.col('matches'), targetUser.id) },
+            { where: { id: req.userId } },
+          );
+
           if (loggedUser.socket) {
             req.io.to(loggedUser.socket).emit('match', targetUser);
           }
