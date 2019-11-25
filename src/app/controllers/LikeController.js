@@ -5,7 +5,6 @@ class LikeController {
   async store(req, res) {
     try {
       if (req.user != req.userId) {
-        console.log('erro no if', req.user, req.userId);
         return res.status(400).json({ error: 'falha ao passar os parametros para o socket' });
       }
       const { id } = req.body;

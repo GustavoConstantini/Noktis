@@ -14,7 +14,7 @@ class App {
 
     this.connectedUsers = {};
     this.io.on('connection', (socket) => {
-      this.user = socket.handshake.query;
+      this.user = socket.handshake.query.user;
       this.socketIo = socket.id;
     });
 
