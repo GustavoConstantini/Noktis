@@ -4,23 +4,27 @@ import User from '../models/User';
 class LikeController {
   async store(req, res) {
     try {
+      if (req.user != req.userId) {
+        return res.status(400).json({ error: 'falha ao passar os parametros para o socket' });
+      }
       const { id } = req.body;
-  
+
       const loggedUser = await User.findByPk(req.userId);
+
+      loggedUser.socket = req.socketIo;
+
+      await loggedUser.save();
 
       const { dataValues: targetUser } = await User.findOne({ where: { id }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt'] } });
 
       if (targetUser.likes !== null) {
         if (targetUser.likes.includes(loggedUser.id)) {
-          const loggedSocket = req.connectedUsers[req.userId];
-          const targetSocket = req.connectedUsers[id];
-
-          if (loggedSocket) {
-            req.io.to(loggedSocket).emit('match', targetUser);
+          if (loggedUser.socket) {
+            req.io.to(loggedUser.socket).emit('match', targetUser);
           }
 
-          if (targetSocket) {
-            req.io.to(targetSocket).emit('match', loggedUser);
+          if (targetUser.socket) {
+            req.io.to(targetUser.socket).emit('match', loggedUser);
           }
         }
       }

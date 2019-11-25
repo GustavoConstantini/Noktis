@@ -51,6 +51,10 @@ module.exports = {
     dislikes: {
       type: Sequelize.ARRAY(Sequelize.INTEGER),
     },
+    socket: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
     password_hash: {
       type: Sequelize.STRING,
       allowNull: false,

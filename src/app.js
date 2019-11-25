@@ -14,9 +14,8 @@ class App {
 
     this.connectedUsers = {};
     this.io.on('connection', (socket) => {
-      const { user } = socket.handshake.query;
-
-      this.connectedUsers[user] = socket.id;
+      this.user = socket.handshake.query;
+      this.socketIo = socket.id;
     });
 
     this.middlewares();
@@ -26,7 +25,8 @@ class App {
   middlewares() {
     this.app.use((req, res, next) => {
       req.io = this.io;
-      req.connectedUsers = this.connectedUsers;
+      req.user = this.user;
+      req.socketIo = this.socketIo;
       return next();
     });
     this.app.use(express.json());

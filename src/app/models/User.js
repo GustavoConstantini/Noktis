@@ -16,6 +16,7 @@ class User extends Model {
         online: Sequelize.BOOLEAN,
         likes: Sequelize.ARRAY(Sequelize.INTEGER),
         dislikes: Sequelize.ARRAY(Sequelize.INTEGER),
+        socket: Sequelize.STRING,
         password_hash: Sequelize.STRING,
         password: Sequelize.VIRTUAL,
       },
