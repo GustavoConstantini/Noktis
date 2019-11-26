@@ -23,7 +23,7 @@ class DeleteAccountController {
     const { email, password } = req.body;
 
     if (!(await user.checkPassword(password))) {
-      return res.status(400).json({ error: 'senha informado é inválido' });
+      return res.status(400).json({ error: 'senha informada é inválida' });
     }
 
     if (email !== user.email) {
