@@ -19,16 +19,6 @@ class LikeController {
 
       if (targetUser.likes !== null) {
         if (targetUser.likes.includes(loggedUser.id)) {
-          await loggedUser.update(
-            { matches: sequelize.fn('array_append', sequelize.col('matches'), targetUser.id) },
-            { where: { id: loggedUser.id } },
-          );
-
-          await targetUser.update(
-            { matches: sequelize.fn('array_append', sequelize.col('matches'), loggedUser.id) },
-            { where: { id: targetUser.id } },
-          );
-
           if (loggedUser.socket) {
             req.io.to(loggedUser.socket).emit('match', targetUser);
           }
