@@ -21,7 +21,12 @@ class LikeController {
         if (targetUser.likes.includes(loggedUser.id)) {
           await loggedUser.update(
             { matches: sequelize.fn('array_append', sequelize.col('matches'), targetUser.id) },
-            { where: { id: req.userId } },
+            { where: { id: loggedUser.id } },
+          );
+
+          await targetUser.update(
+            { matches: sequelize.fn('array_append', sequelize.col('matches'), targetUser.id) },
+            { where: { id: targetUser.id } },
           );
 
           if (loggedUser.socket) {
