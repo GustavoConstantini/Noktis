@@ -25,7 +25,7 @@ class LikeController {
           );
 
           await targetUser.update(
-            { matches: sequelize.fn('array_append', sequelize.col('matches'), targetUser.id) },
+            { matches: sequelize.fn('array_append', sequelize.col('matches'), loggedUser.id) },
             { where: { id: targetUser.id } },
           );
 
