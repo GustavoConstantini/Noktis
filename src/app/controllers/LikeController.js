@@ -9,7 +9,7 @@ class LikeController {
       }
       const { id } = req.body;
 
-      const loggedUser = User.findOne({ where: { id: req.userId }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt'] } });
+      const loggedUser = await User.findByPk(req.userId);
 
       loggedUser.socket = req.socketIo;
 
