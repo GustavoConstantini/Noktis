@@ -12,7 +12,6 @@ class App {
     this.server = http.Server(this.app);
     this.io = io(this.server).use(ioConfig);
 
-    this.connectedUsers = {};
     this.io.on('connection', (socket) => {
       this.user = socket.handshake.query.user;
       this.socketIo = socket.id;
