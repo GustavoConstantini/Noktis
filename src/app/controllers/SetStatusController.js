@@ -11,11 +11,11 @@ class SetStatusController {
 
     const { online } = req.body;
 
-    if (online !== 'false' && online !== 'true' && online !== false && online !== true) {
+    if (online !== 'false' && online !== 'true') {
       return res.status(400).json({ error: 'status invalido' });
     }
 
-    if (online === 'false' || online === false) {
+    if (online === 'false') {
       setTimeout(async () => {
         await user.update(req.body);
 
@@ -23,7 +23,7 @@ class SetStatusController {
       }, 120000);
     }
 
-    if (online === 'true' || online === true) {
+    if (online === 'true') {
       await user.update(req.body);
 
       return res.status(200).json({ ok: 'status atualizado' });
