@@ -4,7 +4,15 @@ import User from '../models/User';
 
 class GetOnlineController {
   async index(req, res) {
+    if (req.user != req.userId) {
+      return res.status(400).json({ error: 'falha ao passar os parametros para o socket' });
+    }
+
     const user = await User.findByPk(req.userId);
+
+    user.socket = req.socketIo;
+
+    await user.save();
 
     const { sex } = user;
 
