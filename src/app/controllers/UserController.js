@@ -44,11 +44,11 @@ class UserController {
       return res.status(400).json({ error: 'Este usuário já existe' });
     }
 
+    req.body.name = req.body.name.trim();
+    req.body.bio = req.body.bio.trim();
     req.body.sex = req.body.sex.toUpperCase();
 
-    const { sex } = req.body;
-
-    if (sex !== 'F' && sex !== 'M') {
+    if (req.body.sex !== 'F' && req.body.sex !== 'M') {
       return res.status(400).json({ error: 'Falha ao validar' });
     }
 
@@ -59,7 +59,7 @@ class UserController {
     }
 
     const {
-      id, name, birth_timestamp, bio, email, filename, latitude, longitude,
+      id, name, birth_timestamp, sex, bio, email, filename, latitude, longitude,
     } = await User.create(req.body);
 
     return res.json({
@@ -67,7 +67,7 @@ class UserController {
         id,
         name,
         birth_timestamp,
-        sex: req.body.sex,
+        sex,
         bio,
         filename,
         latitude,
