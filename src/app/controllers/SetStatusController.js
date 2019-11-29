@@ -16,11 +16,9 @@ class SetStatusController {
     }
 
     if (online === 'false') {
-      setTimeout(async () => {
-        await user.update(req.body);
+      await user.update(req.body);
 
-        return res.status(200).json({ ok: 'status atualizado' });
-      }, 120000);
+      return res.status(200).json({ ok: 'status atualizado' });
     }
 
     if (online === 'true') {

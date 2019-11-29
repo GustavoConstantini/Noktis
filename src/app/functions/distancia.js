@@ -1,6 +1,3 @@
-/* eslint-disable no-mixed-operators */
-/* eslint-disable max-len */
-/* eslint-disable no-shadow */
 function distancia(lat1, lon1, lat2, lon2) {
   const lat1R = Math.PI * lat1 / 180;
   const lat2R = Math.PI * lat2 / 180;
@@ -16,5 +13,16 @@ function distancia(lat1, lon1, lat2, lon2) {
   return distancia.toFixed(2);
 }
 
+function appendDistancia(object, latitude, longitude) {
+  const filterObject = object.map((index) => index.dataValues);
+  filterObject.map((index) => {
+    index.distancia = distancia(index.latitude, index.longitude, latitude, longitude);
+    delete index.latitude;
+    delete index.longitude;
+    return this;
+  });
+  return filterObject;
+}
 
-export default distancia;
+
+export default appendDistancia;

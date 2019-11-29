@@ -8,7 +8,6 @@ import LocationController from './app/controllers/LocationController';
 import FileController from './app/controllers/FileController';
 import OnlineController from './app/controllers/OnlineController';
 import SetStatusController from './app/controllers/SetStatusController';
-import DistanciaController from './app/controllers/DistanciaController';
 import DislikeController from './app/controllers/DislikeController';
 import LikeController from './app/controllers/LikeController';
 import DeleteAccountController from './app/controllers/DeleteAccountController';
@@ -32,8 +31,6 @@ routes.post('/location/send', LocationController.store);
 routes.post('/upload/file', upload.single('file'), FileController.store);
 
 routes.get('/users/online', OnlineController.index);
-
-routes.post('/users/distancia', DistanciaController.store);
 
 routes.post('/users/dislikes', DislikeController.store);
 

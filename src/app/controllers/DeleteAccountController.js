@@ -6,8 +6,6 @@ import User from '../models/User';
 class DeleteAccountController {
   async store(req, res) {
     const schema = Yup.object().shape({
-      email: Yup.string()
-        .required(),
       password: Yup.string()
         .required(),
     });
@@ -24,10 +22,6 @@ class DeleteAccountController {
 
     if (!(await user.checkPassword(password))) {
       return res.status(400).json({ error: 'senha informada é inválida' });
-    }
-
-    if (email !== user.email) {
-      return res.status(400).json({ error: 'Email informado é inválido ' });
     }
 
     if (user.filename === 'default_avatar_female.jpg' || user.filename === 'default_avatar_male.jpg') {
