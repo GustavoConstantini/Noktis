@@ -9,13 +9,13 @@ class GetOnlineController {
       const user = await User.findByPk(req.userId);
 
       let oppositeSex;
-  
+
       if (user.sex === 'F') {
         oppositeSex = 'M';
       } else {
         oppositeSex = 'F';
       }
-  
+
       if (user.likes === null && user.dislikes === null) {
         const users = await User.findAll({
           where: {
@@ -23,12 +23,12 @@ class GetOnlineController {
           },
           attributes: ['id', 'name', 'birth_timestamp', 'bio', 'sex', 'filename', 'latitude', 'longitude'],
         });
-  
+
         const usersValues = distancia(users, user.latitude, user.longitude);
-  
+
         return res.json({ usersValues });
       }
-  
+
       if (user.likes !== null && user.dislikes === null) {
         const users = await User.findAll({
           where: {
@@ -36,12 +36,12 @@ class GetOnlineController {
           },
           attributes: ['id', 'name', 'birth_timestamp', 'bio', 'sex', 'filename', 'latitude', 'longitude'],
         });
-  
+
         const usersValues = distancia(users, user.latitude, user.longitude);
-  
+
         return res.status(200).json({ usersValues });
       }
-  
+
       if (user.likes === null && user.dislikes !== null) {
         const users = await User.findAll({
           where: {
@@ -49,12 +49,12 @@ class GetOnlineController {
           },
           attributes: ['id', 'name', 'birth_timestamp', 'bio', 'sex', 'filename', 'latitude', 'longitude'],
         });
-  
+
         const usersValues = distancia(users, user.latitude, user.longitude);
-  
+
         return res.status(200).json({ usersValues });
       }
-  
+
       if (user.likes !== null && user.dislikes !== null) {
         const users = await User.findAll({
           where: {
@@ -62,14 +62,15 @@ class GetOnlineController {
           },
           attributes: ['id', 'name', 'birth_timestamp', 'bio', 'sex', 'filename', 'latitude', 'longitude'],
         });
-  
+
         const usersValues = distancia(users, user.latitude, user.longitude);
-  
+
         return res.status(200).json({ usersValues });
       }
     } catch (error) {
-      return res.status(400).json({ error: 'Erro em buscar os usuário' })
+      return res.status(400).json({ error: 'Erro em buscar os usuário' });
     }
+    return this;
   }
 }
 

@@ -14,27 +14,27 @@ class SessionConstroller {
         password: Yup.string()
           .required(),
       });
-  
+
       if (!(await schema.isValid(req.body))) {
         return res.status(400).json({ error: 'Falha na validacão' });
       }
-  
+
       const { email, password } = req.body;
-  
+
       const user = await User.findOne({ where: { email } });
-  
+
       if (!user) {
         return res.status(400).json({ error: 'Usuário não encontrado' });
       }
-  
+
       if (!(await user.checkPassword(password))) {
         return res.status(403).json({ error: 'Senha incorreta' });
       }
-  
+
       const {
         id, name, age, sex, bio, filename, latitude, longitude,
       } = user;
-  
+
       return res.json({
         user: {
           id,
