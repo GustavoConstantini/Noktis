@@ -1,16 +1,24 @@
-function distancia(lat1, lon1, lat2, lon2) {
-  const lat1R = Math.PI * lat1 / 180;
-  const lat2R = Math.PI * lat2 / 180;
-  const lonDelta = lon1 - lon2;
-  const lonDeltaR = Math.PI * lonDelta / 180;
-  let distancia = Math.sin(lat1R) * Math.sin(lat2R) + Math.cos(lat1R) * Math.cos(lat2R) * Math.cos(lonDeltaR);
+function distancia(latOne, lonOne, latTwo, lonTwo) {
+  const latOneDivided = latOne / 180;
+  const latTwoDivided = latTwo / 180;
 
-  distancia = Math.acos(distancia);
-  distancia = distancia * 180 / Math.PI;
-  distancia = distancia * 60 * 1.1515;
-  distancia *= 1.609344;
+  const latOneR = Math.PI * latOneDivided;
+  const latTwoR = Math.PI * latTwoDivided;
+  const lonDelta = lonOne - lonTwo;
 
-  return distancia.toFixed(2);
+  const lonDeltaDivided = lonDelta / 180;
+
+  const lonDeltaR = Math.PI * lonDeltaDivided;
+
+  let Distancia = Math.sin(latOneR) * Math.sin(latTwoR);
+  Distancia += Math.cos(latOneR) * Math.cos(latTwoR) * Math.cos(lonDeltaR);
+  Distancia = Math.acos(Distancia);
+  Distancia *= 180;
+  Distancia /= Math.PI;
+  Distancia = Distancia * 60 * 1.1515;
+  Distancia *= 1.609344;
+
+  return Distancia.toFixed(2);
 }
 
 function appendDistancia(object, latitude, longitude) {
