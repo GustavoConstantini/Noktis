@@ -16,7 +16,7 @@ export default async (Socket) => {
 
       await user.save();
     });
-  } catch (Error) {
+  } catch (error) {
     return new (Error)();
   }
   return this;
