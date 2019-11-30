@@ -117,11 +117,11 @@ class UserController {
     }
 
     const {
-      id, name, birth_timestamp, sex, bio,
+      id, name, birth_timestamp, sex, bio, filename,
     } = await user.update(req.body);
 
     return res.status(200).json({
-      id, name, birth_timestamp, sex, bio, email,
+      id, name, birth_timestamp, sex, bio, filename, email,
     });
   }
 }
