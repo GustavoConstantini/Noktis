@@ -2,6 +2,8 @@ import express from 'express';
 import http from 'http';
 import io from 'socket.io';
 import ioConfig from './app/middlewares/io';
+import onlineConnection from './app/functions/onlineConnection';
+import onlineDisconnection from './app/functions/onlineDisconnect';
 import routes from './routes';
 
 import './database';
@@ -12,10 +14,8 @@ class App {
     this.server = http.Server(this.app);
     this.io = io(this.server).use(ioConfig);
 
-    this.io.on('connection', (socket) => {
-      this.user = socket.handshake.query.user;
-      this.socketIo = socket.id;
-    });
+    this.io.on('connection', onlineConnection);
+    this.io.on('disconnection', onlineDisconnection);
 
     this.middlewares();
     this.routes();
@@ -24,8 +24,6 @@ class App {
   middlewares() {
     this.app.use((req, res, next) => {
       req.io = this.io;
-      req.user = this.user;
-      req.socketIo = this.socketIo;
       return next();
     });
     this.app.use(express.json());

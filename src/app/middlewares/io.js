@@ -10,7 +10,7 @@ export default async (socket, next) => {
   try {
     const decoded = await promisify(jwt.verify)(socket.handshake.query.token, authConfig.secret);
 
-    socket.decoded = decoded;
+    socket.userId = decoded.id;
 
     return next();
   } catch (error) {
