@@ -13,7 +13,7 @@ export default async (socket, next) => {
     socket.userId = decoded.id;
 
     return next();
-  } catch (error) {
+  } catch (Error) {
     return next(new Error('falha ao validar'));
   }
 };
