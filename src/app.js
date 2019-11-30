@@ -3,7 +3,6 @@ import http from 'http';
 import io from 'socket.io';
 import ioConfig from './app/middlewares/io';
 import onlineConnection from './app/functions/onlineConnection';
-import onlineDisconnection from './app/functions/onlineDisconnect';
 import routes from './routes';
 
 import './database';
@@ -13,9 +12,7 @@ class App {
     this.app = express();
     this.server = http.Server(this.app);
     this.io = io(this.server).use(ioConfig);
-
     this.io.on('connection', onlineConnection);
-    this.io.on('disconnection', onlineDisconnection);
 
     this.middlewares();
     this.routes();
