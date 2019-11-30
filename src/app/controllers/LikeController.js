@@ -10,15 +10,13 @@ class LikeController {
 
       const { dataValues: targetUser } = await User.findOne({ where: { id }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt'] } });
 
-      if (targetUser.likes !== null) {
-        if (targetUser.likes.includes(loggedUser.id)) {
-          if (loggedUser.socket) {
-            req.io.to(loggedUser.socket).emit('match', targetUser);
-          }
+      if (targetUser.likes.includes(loggedUser.id)) {
+        if (loggedUser.socket) {
+          req.io.to(loggedUser.socket).emit('match', targetUser);
+        }
 
-          if (targetUser.socket) {
-            req.io.to(targetUser.socket).emit('match', loggedUser);
-          }
+        if (targetUser.socket) {
+          req.io.to(targetUser.socket).emit('match', loggedUser);
         }
       }
 

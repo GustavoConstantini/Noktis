@@ -8,10 +8,8 @@ class DislikeController {
 
       const loggedUser = await User.findByPk(req.userId);
 
-      const { dataValues: targetUser } = await User.findOne({ where: { id }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt'] } });
-
       await loggedUser.update(
-        { dislikes: sequelize.fn('array_append', sequelize.col('dislikes'), targetUser.id) },
+        { dislikes: sequelize.fn('array_append', sequelize.col('dislikes'), id) },
         { where: { id: req.userId } },
       );
     } catch (error) {

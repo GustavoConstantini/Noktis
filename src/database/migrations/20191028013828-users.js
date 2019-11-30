@@ -47,13 +47,15 @@ module.exports = {
     },
     likes: {
       type: Sequelize.ARRAY(Sequelize.INTEGER),
+      defaultValue: [],
     },
     dislikes: {
       type: Sequelize.ARRAY(Sequelize.INTEGER),
+      defaultValue: [],
     },
     matches: {
       type: Sequelize.ARRAY(Sequelize.INTEGER),
-      allowNull: true,
+      defaultValue: [],
     },
     socket: {
       type: Sequelize.STRING,
