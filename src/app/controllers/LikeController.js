@@ -8,21 +8,35 @@ class LikeController {
 
       const loggedUser = await User.findByPk(req.userId);
 
-      const { dataValues: targetUser } = await User.findOne({ where: { id }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt'] } });
+      const targetUser = await User.findByPk(id);
+
+      const { dataValues: loggedUserFilter } = await User.findOne({ where: { id: req.userId }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt', 'matches', 'likes', 'dislikes'] } });
+
+      const { dataValues: targetUserFilter } = await User.findOne({ where: { id }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt', 'matches', 'likes', 'dislikes'] } });
 
       if (targetUser.likes.includes(loggedUser.id)) {
         if (loggedUser.socket) {
-          req.io.to(loggedUser.socket).emit('match', targetUser);
+          req.io.to(loggedUser.socket).emit('match', targetUserFilter);
         }
 
         if (targetUser.socket) {
-          req.io.to(targetUser.socket).emit('match', loggedUser);
+          req.io.to(targetUser.socket).emit('match', loggedUserFilter);
         }
+
+        await loggedUser.update(
+          { matches: sequelize.fn('array_append', sequelize.col('matches'), targetUser.id) },
+          { where: { id: loggedUser.id } },
+        );
+
+        await targetUser.update(
+          { matches: sequelize.fn('array_append', sequelize.col('matches'), loggedUser.id) },
+          { where: { id: targetUser.id } },
+        );
       }
 
       await loggedUser.update(
-        { likes: sequelize.fn('array_append', sequelize.col('likes'), targetUser.id) },
-        { where: { id: req.userId } },
+        { likes: sequelize.fn('array_append', sequelize.col('likes'), targetUserFilter.id) },
+        { where: { id: loggedUser.id } },
       );
 
       return res.status(200).json({ ok: true });
