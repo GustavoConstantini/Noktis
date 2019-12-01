@@ -12,7 +12,7 @@ class App {
     this.app = express();
     this.server = http.Server(this.app);
     this.io = io(this.server).use(ioConfig);
-    this.io.on('connection', onlineConnection);
+    this.io.on('connection', onlineConnection.bind(this));
 
     this.middlewares();
     this.routes();

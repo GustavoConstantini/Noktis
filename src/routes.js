@@ -10,6 +10,7 @@ import OnlineController from './app/controllers/OnlineController';
 import DislikeController from './app/controllers/DislikeController';
 import LikeController from './app/controllers/LikeController';
 import DeleteAccountController from './app/controllers/DeleteAccountController';
+import GetInfosController from './app/controllers/GetInfosController';
 
 
 import authMiddleware from './app/middlewares/auth';
@@ -36,5 +37,7 @@ routes.post('/users/dislikes', DislikeController.store);
 routes.post('/users/likes', LikeController.store);
 
 routes.delete('/delete/account', DeleteAccountController.store);
+
+routes.get('/user/getinfos', GetInfosController.store);
 
 export default routes;

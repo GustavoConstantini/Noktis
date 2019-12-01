@@ -1,3 +1,5 @@
+import ageConverter from './ageConverter';
+
 function distancia(latOne, lonOne, latTwo, lonTwo) {
   const latOneDivided = latOne / 180;
   const latTwoDivided = latTwo / 180;
@@ -25,8 +27,10 @@ function appendDistancia(object, latitude, longitude) {
   const filterObject = object.map((index) => index.dataValues);
   filterObject.map((index) => {
     index.distancia = distancia(index.latitude, index.longitude, latitude, longitude);
+    index.age = ageConverter(index.birth_timestamp);
     delete index.latitude;
     delete index.longitude;
+    delete index.birth_timestamp;
     return this;
   });
   return filterObject;

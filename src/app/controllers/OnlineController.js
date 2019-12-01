@@ -1,7 +1,7 @@
 import { Op } from 'sequelize';
 import User from '../models/User';
 
-import distancia from '../functions/distancia';
+import jsonEditor from '../functions/ jsonEditor';
 
 class GetOnlineController {
   async index(req, res) {
@@ -23,7 +23,7 @@ class GetOnlineController {
         attributes: ['id', 'name', 'birth_timestamp', 'bio', 'sex', 'filename', 'latitude', 'longitude'],
       });
 
-      const usersValues = distancia(users, user.latitude, user.longitude);
+      const usersValues = jsonEditor(users, user.latitude, user.longitude);
 
       return res.status(200).json({ usersValues });
     } catch (error) {
