@@ -16,11 +16,13 @@ class GetOnlineController {
         oppositeSex = 'F';
       }
 
+      const [minAge, maxAge] = user.age_range.split('-');
+
       const users = await User.findAll({
         where: {
-          [Op.and]: [{ id: { [Op.notIn]: user.likes } }, { id: { [Op.notIn]: user.dislikes } }, { online: true }, { sex: `${oppositeSex}` }],
+          [Op.and]: [{ id: { [Op.notIn]: user.likes } }, { id: { [Op.notIn]: user.dislikes } }, { online: true }, { sex: `${oppositeSex}` }, { age: { [Op.between]: [Number(minAge), Number(maxAge)] } }],
         },
-        attributes: ['id', 'name', 'birth_timestamp', 'bio', 'sex', 'filename', 'latitude', 'longitude'],
+        attributes: ['id', 'name', 'age', 'bio', 'sex', 'filename', 'latitude', 'longitude'],
       });
 
       const usersValues = jsonEditor(users, user.latitude, user.longitude);

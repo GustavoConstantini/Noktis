@@ -32,7 +32,7 @@ class SessionConstroller {
       }
 
       const {
-        id, name, age, sex, bio, filename, latitude, longitude,
+        id, name, age, sex, bio, filename,
       } = user;
 
       return res.json({
@@ -43,8 +43,6 @@ class SessionConstroller {
           sex,
           bio,
           filename,
-          latitude,
-          longitude,
           email,
         },
         token: jwt.sign({ id }, authConfig.secret, {

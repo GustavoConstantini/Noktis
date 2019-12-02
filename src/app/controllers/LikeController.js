@@ -10,9 +10,9 @@ class LikeController {
 
       const targetUser = await User.findByPk(id);
 
-      const { dataValues: loggedUserFilter } = await User.findOne({ where: { id: req.userId }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt', 'matches', 'likes', 'dislikes'] } });
+      const { dataValues: loggedUserFilter } = await User.findOne({ where: { id: req.userId }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt', 'matches', 'likes', 'dislikes', 'latitude', 'longitude', 'socket'] } });
 
-      const { dataValues: targetUserFilter } = await User.findOne({ where: { id }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt', 'matches', 'likes', 'dislikes'] } });
+      const { dataValues: targetUserFilter } = await User.findOne({ where: { id }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt', 'matches', 'likes', 'dislikes', 'latitude', 'longitude', 'socket'] } });
 
       if (targetUser.likes.includes(loggedUser.id)) {
         if (loggedUser.socket) {

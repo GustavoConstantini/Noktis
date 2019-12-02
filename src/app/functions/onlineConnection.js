@@ -20,11 +20,11 @@ export default async function io(Socket) {
     });
 
     Socket.on('sendMessage', async (data) => {
-      const matchUser = await User.findByPk(data["id"]);
+      const matchUser = await User.findByPk(data.id);
       const userFilter = jsonEditor(Filter, matchUser.latitude, matchUser.longitude);
       const message = {
         sender: userFilter,
-        messege: data["message"],
+        messege: data.message,
       };
       if (matchUser.online) {
         this.io.to(matchUser.socket).emit('receiveMessage', message);

@@ -59,14 +59,14 @@ class UserController {
     }
 
     const {
-      id, name, birth_timestamp, sex, bio, email, filename, latitude, longitude,
+      id, name, age, sex, bio, email, filename, latitude, longitude,
     } = await User.create(req.body);
 
     return res.json({
       user: {
         id,
         name,
-        birth_timestamp,
+        age,
         sex,
         bio,
         filename,
@@ -86,6 +86,8 @@ class UserController {
         .email(),
       bio: Yup.string()
         .max(150),
+      age_range: Yup.string()
+        .max(6),
       oldPassword: Yup.string(),
       password: Yup.string()
         .min(5)
@@ -117,11 +119,11 @@ class UserController {
     }
 
     const {
-      id, name, birth_timestamp, sex, bio, filename,
+      name, bio, filename,
     } = await user.update(req.body);
 
     return res.status(200).json({
-      id, name, birth_timestamp, sex, bio, filename, email,
+      name, bio, filename, email,
     });
   }
 }

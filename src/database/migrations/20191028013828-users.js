@@ -10,8 +10,8 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    birth_timestamp: {
-      type: Sequelize.BIGINT,
+    age: {
+      type: Sequelize.INTEGER,
       allowNull: false,
     },
     sex: {
@@ -56,6 +56,10 @@ module.exports = {
     matches: {
       type: Sequelize.ARRAY(Sequelize.INTEGER),
       defaultValue: [],
+    },
+    age_range: {
+      type: Sequelize.STRING,
+      defaultValue: '18-100',
     },
     socket: {
       type: Sequelize.STRING,
