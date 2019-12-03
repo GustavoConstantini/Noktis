@@ -20,6 +20,7 @@ class User extends Model {
         likes: Sequelize.ARRAY(Sequelize.INTEGER),
         dislikes: Sequelize.ARRAY(Sequelize.INTEGER),
         matches: Sequelize.ARRAY(Sequelize.INTEGER),
+        await_message: Sequelize.ARRAY(Sequelize.JSON),
         socket: Sequelize.STRING,
         password_hash: Sequelize.STRING,
         password: Sequelize.VIRTUAL,

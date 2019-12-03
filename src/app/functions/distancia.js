@@ -21,6 +21,6 @@ export default function Distancia(latOne, lonOne, latTwo, lonTwo) {
 
     return distancia.toFixed(2);
   } catch (error) {
-    return new (Error)();
+    return new Error(error);
   }
 }

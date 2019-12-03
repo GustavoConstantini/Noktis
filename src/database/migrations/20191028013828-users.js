@@ -65,6 +65,10 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: true,
     },
+    await_message: {
+      type: Sequelize.ARRAY(Sequelize.JSON),
+      defaultValue: [],
+    },
     password_hash: {
       type: Sequelize.STRING,
       allowNull: false,

@@ -6,7 +6,7 @@ import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import LocationController from './app/controllers/LocationController';
 import FileController from './app/controllers/FileController';
-import OnlineController from './app/controllers/OnlineController';
+import GetUsersController from './app/controllers/GetUsersController';
 import DislikeController from './app/controllers/DislikeController';
 import LikeController from './app/controllers/LikeController';
 import DeleteAccountController from './app/controllers/DeleteAccountController';
@@ -30,7 +30,7 @@ routes.post('/location/send', LocationController.store);
 
 routes.post('/upload/file', upload.single('file'), FileController.store);
 
-routes.get('/users/online', OnlineController.index);
+routes.get('/users/online', GetUsersController.index);
 
 routes.post('/users/dislikes', DislikeController.store);
 

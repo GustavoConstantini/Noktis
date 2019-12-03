@@ -8,6 +8,10 @@ class GetOnlineController {
     try {
       const user = await User.findByPk(req.userId);
 
+      if (!(user.latitude && user.longitude)) {
+        return res.status(400).json({ error: 'localização não informada' });
+      }
+
       let oppositeSex;
 
       if (user.sex === 'F') {
