@@ -1,53 +1,43 @@
 import sequelize from 'sequelize';
 import User from '../models/User';
-import addDistancia from './addDistancia';
 
 export default async function io(Socket) {
   try {
-    const user = await User.findByPk(Socket.userId);
+    const user = await User.findOne({ where: { id: Socket.userId }, include: ['profiles', 'connections'] });
 
-    user.socket = Socket.id;
+    await user.connections.update({ socket: Socket.id });
 
-    await user.save();
-
-    if (user.socket && user.await_message) {
-      user.await_message.map((index) => {
-        this.io.to(user.socket).emit('awaitMessage', index);
+    if (user.connections.socket && user.connections.await_message) {
+      user.connections.await_message.map((index) => {
+        this.io.to(user.connections.socket).emit('awaitMessage', index);
         return this;
       });
-      user.await_message = [];
-      user.save();
+      await user.connections.update({ await_message: [] });
     }
 
     Socket.on('disconnect', async () => {
-      user.socket = null;
-
-      await user.save();
+      await user.connections.update({ socket: null });
     });
 
     Socket.on('sendMessage', async (json) => {
       const data = JSON.parse(json);
 
-      const matchUser = await User.findByPk(data.id);
-
-      const { dataValues: Filter } = await User.findOne({ where: { id: Socket.userId }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt', 'matches', 'likes', 'dislikes', 'socket', 'age_range', 'await_message'] } });
-
-      const userFilter = addDistancia(Filter, matchUser.latitude, matchUser.longitude);
+      const matchUser = await User.findOne({ where: { id: data.id }, include: ['connections'] });
 
       const date = Date.now();
 
       const message = {
-        sender: userFilter,
+        sender: user.profiles,
         message: data.message,
         timestamp: date,
       };
 
-      if (matchUser.socket) {
-        this.io.to(matchUser.socket).emit('receiveMessage', message);
+      if (matchUser.connections.socket) {
+        this.io.to(matchUser.connections.socket).emit('receiveMessage', message);
       } else {
-        await matchUser.update(
+        await matchUser.connections.update(
           { await_message: sequelize.fn('array_append', sequelize.col('await_message'), JSON.stringify(message)) },
-          { where: { id: matchUser.id } },
+          { where: { user_id: matchUser.id } },
         );
       }
     });

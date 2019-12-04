@@ -5,6 +5,7 @@ import User from '../models/User';
 import Profile from '../models/Profile';
 import Location from '../models/Location';
 import Choice from '../models/Choice';
+import Connection from '../models/Connection';
 
 import authConfig from '../../config/auth';
 import checkAge from '../functions/ckeckAge';
@@ -77,6 +78,7 @@ class UserController {
 
     await Location.create({ user_id: id, latitude, longitude });
     await Choice.create({ user_id: id });
+    await Connection.create({ user_id: id });
 
     const { age } = await Profile.create({
       user_id: id,

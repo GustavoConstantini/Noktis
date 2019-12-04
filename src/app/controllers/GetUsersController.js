@@ -3,7 +3,7 @@ import User from '../models/User';
 import Profile from '../models/Profile';
 import Location from '../models/Location';
 
-import distancia from '../functions/ jsonEditor';
+import distancia from '../functions/jsonEditor';
 
 class GetOnlineController {
   async index(req, res) {

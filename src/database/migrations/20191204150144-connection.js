@@ -1,23 +1,26 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('users', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('connections', {
     id: {
       type: Sequelize.INTEGER,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
     },
-    email: {
+    user_id: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+    },
+    socket: {
       type: Sequelize.STRING,
-      allowwNull: false,
-      unique: true,
+      allowNull: true,
     },
     await_message: {
       type: Sequelize.ARRAY(Sequelize.JSON),
       defaultValue: [],
-    },
-    password_hash: {
-      type: Sequelize.STRING,
-      allowNull: false,
     },
     created_at: {
       type: Sequelize.DATE,
@@ -29,5 +32,5 @@ module.exports = {
     },
   }),
 
-  down: (queryInterface) => queryInterface.dropTable('users'),
+  down: (queryInterface) => queryInterface.dropTable('connections'),
 };

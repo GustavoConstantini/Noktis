@@ -17,7 +17,7 @@ class DeleteAccountController {
 
       const unlinkDelete = promisify(unlink);
 
-      const user = await User.findOne({ where: { id: req.userId }, include: ['profiles', 'choices', 'locations'] });
+      const user = await User.findOne({ where: { id: req.userId }, include: ['profiles', 'choices', 'locations', 'connections'] });
 
       const { password } = req.body;
 
@@ -36,6 +36,7 @@ class DeleteAccountController {
       await user.choices.destroy();
       await user.locations.destroy();
       await user.profiles.destroy();
+      await user.connections.destroy();
       await user.destroy();
 
       return res.status(200).json({ ok: true });

@@ -6,8 +6,6 @@ class User extends Model {
     super.init(
       {
         email: Sequelize.STRING,
-        await_message: Sequelize.ARRAY(Sequelize.JSON),
-        socket: Sequelize.STRING,
         password_hash: Sequelize.STRING,
         password: Sequelize.VIRTUAL,
       },
@@ -38,6 +36,12 @@ class User extends Model {
 
     this.hasOne(models.Choice, {
       as: 'choices',
+      onDelete: 'CASCADE',
+      foreignKey: 'user_id',
+    });
+
+    this.hasOne(models.Connection, {
+      as: 'connections',
       onDelete: 'CASCADE',
       foreignKey: 'user_id',
     });

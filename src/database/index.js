@@ -4,11 +4,12 @@ import User from '../app/models/User';
 import Profile from '../app/models/Profile';
 import Location from '../app/models/Location';
 import Choice from '../app/models/Choice';
+import Connection from '../app/models/Connection';
 
 
 import databaseConfig from '../config/database';
 
-const models = [User, Profile, Location, Choice];
+const models = [User, Profile, Location, Choice, Connection];
 
 class Database {
   constructor() {

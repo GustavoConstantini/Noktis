@@ -6,17 +6,17 @@ class LikeController {
     try {
       const { id } = req.body;
 
-      const loggedUser = await User.findOne({ where: { id: req.userId }, include: ['profiles', 'choices'] });
+      const loggedUser = await User.findOne({ where: { id: req.userId }, include: ['profiles', 'choices', 'connections'] });
 
-      const targetUser = await User.findOne({ where: { id }, include: ['profiles', 'choices'] });
+      const targetUser = await User.findOne({ where: { id }, include: ['profiles', 'choices', 'connections'] });
 
       if (targetUser.choices.likes.includes(loggedUser.id)) {
-        if (loggedUser.socket) {
-          req.io.to(loggedUser.socket).emit('match', loggedUser.profiles);
+        if (loggedUser.connections.socket) {
+          req.io.to(loggedUser.connections.socket).emit('match', targetUser.profiles);
         }
 
-        if (targetUser.socket) {
-          req.io.to(targetUser.socket).emit('match', targetUser.profiles);
+        if (targetUser.connections.socket) {
+          req.io.to(targetUser.connection.socket).emit('match', loggedUser.profiles);
         }
 
         await loggedUser.choices.update(
