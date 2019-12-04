@@ -1,9 +1,9 @@
-import User from '../models/User';
+import Location from '../models/Location';
 
 class LocationController {
   async store(req, res) {
     try {
-      const user = await User.findByPk(req.userId);
+      const location = await Location.findOne({ where: { user_id: req.userId } });
 
       const { latitude, longitude } = req.body;
 
@@ -14,7 +14,7 @@ class LocationController {
       }
 
       if (latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180) {
-        await user.update(req.body);
+        await location.update({ latitude, longitude });
 
         return res.status(200).json({ ok: 'true' });
       }

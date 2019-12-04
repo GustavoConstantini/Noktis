@@ -6,60 +6,10 @@ module.exports = {
       autoIncrement: true,
       primaryKey: true,
     },
-    name: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    age: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-    },
-    sex: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    bio: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    filename: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      unique: false,
-    },
     email: {
       type: Sequelize.STRING,
       allowwNull: false,
       unique: true,
-    },
-    latitude: {
-      type: Sequelize.DOUBLE,
-      defaultValue: null,
-    },
-    longitude: {
-      type: Sequelize.DOUBLE,
-      defaultValue: null,
-    },
-    online: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: false,
-      allowNull: false,
-    },
-    likes: {
-      type: Sequelize.ARRAY(Sequelize.INTEGER),
-      defaultValue: [],
-    },
-    dislikes: {
-      type: Sequelize.ARRAY(Sequelize.INTEGER),
-      defaultValue: [],
-    },
-    matches: {
-      type: Sequelize.ARRAY(Sequelize.INTEGER),
-      defaultValue: [],
-    },
-    age_range: {
-      type: Sequelize.STRING,
-      defaultValue: '18-100',
     },
     socket: {
       type: Sequelize.STRING,

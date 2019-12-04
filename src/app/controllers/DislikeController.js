@@ -1,12 +1,12 @@
 import sequelize from 'sequelize';
-import User from '../models/User';
+import Choice from '../models/Choice';
 
 class DislikeController {
   async store(req, res) {
     try {
       const { id } = req.body;
 
-      const loggedUser = await User.findByPk(req.userId);
+      const loggedUser = await Choice.findOne({ where: { user_id: req.userId } });
 
       await loggedUser.update(
         { dislikes: sequelize.fn('array_append', sequelize.col('dislikes'), id) },

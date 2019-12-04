@@ -6,37 +6,33 @@ class LikeController {
     try {
       const { id } = req.body;
 
-      const loggedUser = await User.findByPk(req.userId);
+      const loggedUser = await User.findOne({ where: { id: req.userId }, include: ['profiles', 'choices'] });
 
-      const targetUser = await User.findByPk(id);
+      const targetUser = await User.findOne({ where: { id }, include: ['profiles', 'choices'] });
 
-      const { dataValues: loggedUserFilter } = await User.findOne({ where: { id: req.userId }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt', 'matches', 'likes', 'dislikes', 'latitude', 'longitude', 'socket'] } });
-
-      const { dataValues: targetUserFilter } = await User.findOne({ where: { id }, attributes: { exclude: ['password_hash', 'email', 'createdAt', 'updatedAt', 'matches', 'likes', 'dislikes', 'latitude', 'longitude', 'socket'] } });
-
-      if (targetUser.likes.includes(loggedUser.id)) {
+      if (targetUser.choices.likes.includes(loggedUser.id)) {
         if (loggedUser.socket) {
-          req.io.to(loggedUser.socket).emit('match', targetUserFilter);
+          req.io.to(loggedUser.socket).emit('match', loggedUser.profiles);
         }
 
         if (targetUser.socket) {
-          req.io.to(targetUser.socket).emit('match', loggedUserFilter);
+          req.io.to(targetUser.socket).emit('match', targetUser.profiles);
         }
 
-        await loggedUser.update(
+        await loggedUser.choices.update(
           { matches: sequelize.fn('array_append', sequelize.col('matches'), targetUser.id) },
-          { where: { id: loggedUser.id } },
+          { where: { user_id: loggedUser.id } },
         );
 
-        await targetUser.update(
+        await targetUser.choices.update(
           { matches: sequelize.fn('array_append', sequelize.col('matches'), loggedUser.id) },
-          { where: { id: targetUser.id } },
+          { where: { user_id: targetUser.id } },
         );
       }
 
-      await loggedUser.update(
-        { likes: sequelize.fn('array_append', sequelize.col('likes'), targetUserFilter.id) },
-        { where: { id: loggedUser.id } },
+      await loggedUser.choices.update(
+        { likes: sequelize.fn('array_append', sequelize.col('likes'), targetUser.id) },
+        { where: { user_id: loggedUser.id } },
       );
 
       return res.status(200).json({ ok: true });

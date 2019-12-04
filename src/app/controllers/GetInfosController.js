@@ -3,11 +3,15 @@ import User from '../models/User';
 class GetInfosController {
   async store(req, res) {
     try {
-      const { dataValues: user } = await User.findOne({ where: { id: req.userId }, attributes: { exclude: ['password_hash', 'createdAt', 'updatedAt', 'id', 'name', 'matches', 'likes', 'sex', 'age', 'dislikes', 'socket', 'online', 'latitude', 'longitude'] } });
+      const user = await User.findOne({ where: { id: req.userId }, include: ['profiles'], attributes: { exclude: ['password_hash', 'createdAt', 'updatedAt'] } });
 
-      return res.status(200).json({ user });
+      const userFilter = {
+        email: user.email,
+        filename: user.profiles.filename,
+      };
+      return res.status(200).json({ userFilter });
     } catch (error) {
-      return res.status(400).josn({ error: 'O usuário não existe' });
+      return res.status(400).json({ error: 'O usuário não existe' });
     }
   }
 }

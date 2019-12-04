@@ -1,25 +1,11 @@
 import Sequelize, { Model } from 'sequelize';
 import bcrypt from 'bcryptjs';
-import ageConverter from '../functions/ageConverter';
 
 class User extends Model {
   static init(sequelize) {
     super.init(
       {
-        name: Sequelize.STRING,
-        age: Sequelize.INTEGER,
-        birth_timestamp: Sequelize.VIRTUAL,
-        sex: Sequelize.STRING,
-        bio: Sequelize.STRING,
-        filename: Sequelize.STRING,
         email: Sequelize.STRING,
-        latitude: Sequelize.DOUBLE,
-        longitude: Sequelize.DOUBLE,
-        online: Sequelize.BOOLEAN,
-        age_range: Sequelize.STRING,
-        likes: Sequelize.ARRAY(Sequelize.INTEGER),
-        dislikes: Sequelize.ARRAY(Sequelize.INTEGER),
-        matches: Sequelize.ARRAY(Sequelize.INTEGER),
         await_message: Sequelize.ARRAY(Sequelize.JSON),
         socket: Sequelize.STRING,
         password_hash: Sequelize.STRING,
@@ -33,11 +19,28 @@ class User extends Model {
       if (user.password) {
         user.password_hash = await bcrypt.hash(user.password, 8);
       }
-      if (user.birth_timestamp) {
-        user.age = ageConverter(user.birth_timestamp);
-      }
     });
     return this;
+  }
+
+  static associate(models) {
+    this.hasOne(models.Profile, {
+      as: 'profiles',
+      onDelete: 'CASCADE',
+      foreignKey: 'user_id',
+    });
+
+    this.hasOne(models.Location, {
+      as: 'locations',
+      onDelete: 'CASCADE',
+      foreignKey: 'user_id',
+    });
+
+    this.hasOne(models.Choice, {
+      as: 'choices',
+      onDelete: 'CASCADE',
+      foreignKey: 'user_id',
+    });
   }
 
   checkPassword(password) {

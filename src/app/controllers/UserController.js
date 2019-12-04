@@ -2,6 +2,10 @@ import jwt from 'jsonwebtoken';
 import * as Yup from 'yup';
 
 import User from '../models/User';
+import Profile from '../models/Profile';
+import Location from '../models/Location';
+import Choice from '../models/Choice';
+
 import authConfig from '../../config/auth';
 import checkAge from '../functions/ckeckAge';
 
@@ -59,17 +63,38 @@ class UserController {
     }
 
     const {
-      id, name, age, sex, bio, email, filename, latitude, longitude,
+      id, email,
     } = await User.create(req.body);
+
+    const {
+      name,
+      birth_timestamp,
+      sex,
+      bio,
+      latitude,
+      longitude,
+    } = req.body;
+
+    await Location.create({ user_id: id, latitude, longitude });
+    await Choice.create({ user_id: id });
+
+    const { age } = await Profile.create({
+      user_id: id,
+      filename: req.body.filename,
+      name,
+      birth_timestamp,
+      sex,
+      bio,
+    });
 
     return res.json({
       user: {
-        id,
         name,
         age,
         sex,
         bio,
-        filename,
+        id,
+        filename: req.body.filename,
         latitude,
         longitude,
         email,
@@ -102,7 +127,7 @@ class UserController {
 
     const { email, oldPassword } = req.body;
 
-    const user = await User.findByPk(req.userId);
+    const user = await User.findOne({ where: { id: req.userId } });
 
     if (email) {
       if (email !== user.email) {
@@ -118,9 +143,11 @@ class UserController {
       return res.status(400).json({ error: 'As senhas não coincidem' });
     }
 
-    const {
-      name, bio, filename,
-    } = await user.update(req.body);
+    const profile = await Profile.findOne({ where: { user_id: user.id } });
+
+    const { name, bio, filename } = await profile.update(req.body);
+
+    await user.update(req.body);
 
     return res.status(200).json({
       name, bio, filename, email,

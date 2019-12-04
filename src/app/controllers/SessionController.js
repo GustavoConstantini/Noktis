@@ -21,7 +21,7 @@ class SessionConstroller {
 
       const { email, password } = req.body;
 
-      const user = await User.findOne({ where: { email } });
+      const user = await User.findOne({ where: { email }, include: ['profiles'] });
 
       if (!user) {
         return res.status(400).json({ error: 'Usuário não encontrado' });
@@ -32,8 +32,12 @@ class SessionConstroller {
       }
 
       const {
-        id, name, age, sex, bio, filename,
+        id, profiles,
       } = user;
+
+      const {
+        name, age, sex, bio, filename,
+      } = profiles;
 
       return res.json({
         user: {

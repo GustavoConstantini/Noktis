@@ -6,8 +6,6 @@ export default async function io(Socket) {
   try {
     const user = await User.findByPk(Socket.userId);
 
-    user.online = true;
-
     user.socket = Socket.id;
 
     await user.save();
@@ -22,8 +20,6 @@ export default async function io(Socket) {
     }
 
     Socket.on('disconnect', async () => {
-      user.online = false;
-
       user.socket = null;
 
       await user.save();

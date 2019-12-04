@@ -17,7 +17,7 @@ class DeleteAccountController {
 
       const unlinkDelete = promisify(unlink);
 
-      const user = await User.findByPk(req.userId);
+      const user = await User.findOne({ where: { id: req.userId }, include: ['profiles', 'choices', 'locations'] });
 
       const { password } = req.body;
 
@@ -25,14 +25,17 @@ class DeleteAccountController {
         return res.status(400).json({ error: 'senha informada é inválida' });
       }
 
-      if (user.filename === 'default_avatar_female.jpg' || user.filename === 'default_avatar_male.jpg') {
+      if (user.profiles.filename === 'default_avatar_female.jpg' || user.profiles.filename === 'default_avatar_male.jpg') {
         await user.destroy();
 
         return res.status(200).json({ ok: true });
       }
 
-      unlinkDelete(`uploads/${user.filename}`);
+      unlinkDelete(`uploads/${user.profiles.filename}`);
 
+      await user.choices.destroy();
+      await user.locations.destroy();
+      await user.profiles.destroy();
       await user.destroy();
 
       return res.status(200).json({ ok: true });
