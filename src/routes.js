@@ -11,6 +11,8 @@ import DislikeController from './app/controllers/DislikeController';
 import LikeController from './app/controllers/LikeController';
 import DeleteAccountController from './app/controllers/DeleteAccountController';
 import GetInfosController from './app/controllers/GetInfosController';
+import GetSessionsController from './app/controllers/GetSessionsController';
+import LogoutController from './app/controllers/LogoutController';
 
 
 import authMiddleware from './app/middlewares/auth';
@@ -39,5 +41,9 @@ routes.post('/users/likes', LikeController.store);
 routes.delete('/delete/account', DeleteAccountController.store);
 
 routes.get('/user/getinfos', GetInfosController.store);
+
+routes.get('/sessions/list', GetSessionsController.index);
+
+routes.get('/logout', LogoutController.store);
 
 export default routes;

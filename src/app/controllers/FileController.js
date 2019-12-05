@@ -1,13 +1,13 @@
-import Profile from '../models/Profile';
+import User from '../models/User';
 
 class FileController {
   async store(req, res) {
     try {
-      const profile = await Profile.findOne({ where: { user_id: req.userId } });
+      const user = await User.findOne({ where: { id: req.userId }, include: ['profiles'] });
 
       const { filename } = req.file;
 
-      await profile.update({ filename });
+      await user.profiles.update({ filename });
 
       return res.status(200).json({ filename });
     } catch (error) {

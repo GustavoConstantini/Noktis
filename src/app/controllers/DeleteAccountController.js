@@ -21,6 +21,10 @@ class DeleteAccountController {
 
       const { password } = req.body;
 
+      if (user.connections.expire_token.includes(req.headers.authorization)) {
+        return res.status(403).json({ error: 'O usuário não está logado' });
+      }
+
       if (!(await user.checkPassword(password))) {
         return res.status(400).json({ error: 'senha informada é inválida' });
       }

@@ -22,6 +22,14 @@ module.exports = {
       type: Sequelize.ARRAY(Sequelize.JSON),
       defaultValue: [],
     },
+    expire_token: {
+      type: Sequelize.ARRAY(Sequelize.STRING),
+      defaultValue: [],
+    },
+    sessions: {
+      type: Sequelize.ARRAY(Sequelize.JSON),
+      defaultValue: [],
+    },
     created_at: {
       type: Sequelize.DATE,
       allowNull: false,

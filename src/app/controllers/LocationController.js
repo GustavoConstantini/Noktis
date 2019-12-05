@@ -1,20 +1,18 @@
-import Location from '../models/Location';
+import User from '../models/User';
 
 class LocationController {
   async store(req, res) {
     try {
-      const location = await Location.findOne({ where: { user_id: req.userId } });
+      const user = await User.findOne({ where: { id: req.userId }, include: ['locations'] });
 
       const { latitude, longitude } = req.body;
 
       if (!(latitude && longitude)) {
-        if (!req.body.online) {
-          return res.status(400).json({ error: 'Erro ao passar o parametro' });
-        }
+        return res.status(400).json({ error: 'Erro ao passar o parametro' });
       }
 
       if (latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180) {
-        await location.update({ latitude, longitude });
+        await user.locations.update({ latitude, longitude });
 
         return res.status(200).json({ ok: 'true' });
       }

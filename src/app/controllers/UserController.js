@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import * as Yup from 'yup';
+import sequelize from 'sequelize';
 
 import User from '../models/User';
 import Profile from '../models/Profile';
@@ -26,6 +27,8 @@ class UserController {
         .max(150),
       latitude: Yup.string(),
       longitude: Yup.string(),
+      phone: Yup.string()
+        .required(),
       email: Yup.string()
         .email()
         .required()
@@ -89,6 +92,34 @@ class UserController {
       bio,
     });
 
+    const user = await User.findOne({ where: { id }, include: ['connections'] });
+
+    const { phone } = req.body;
+
+    const date = Date.now();
+
+    const token = jwt.sign({ id }, authConfig.secret, {
+      expiresIn: authConfig.expiresIn,
+    });
+
+    let ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
+
+    if (ip.substr(0, 7) === '::ffff:') {
+      ip = ip.substr(7);
+    }
+
+    const sessions = {
+      ip,
+      authorization: token,
+      timestamp: date,
+      phone,
+    };
+
+    await user.connections.update(
+      { sessions: sequelize.fn('array_append', sequelize.col('sessions'), JSON.stringify(sessions)) },
+      { where: { user_id: id } },
+    );
+
     return res.json({
       user: {
         name,
@@ -101,9 +132,7 @@ class UserController {
         longitude,
         email,
       },
-      token: jwt.sign({ id }, authConfig.secret, {
-        expiresIn: authConfig.expiresIn,
-      }),
+      token,
     });
   }
 
@@ -131,7 +160,7 @@ class UserController {
 
     const { email, oldPassword } = req.body;
 
-    const user = await User.findOne({ where: { id: req.userId } });
+    const user = await User.findOne({ where: { id: req.userId }, include: ['profiles', 'choices'] });
 
     if (email) {
       if (email !== user.email) {
@@ -147,14 +176,14 @@ class UserController {
       return res.status(400).json({ error: 'As senhas não coincidem' });
     }
 
-    const profile = await Profile.findOne({ where: { user_id: user.id } });
+    const { name, bio, filename } = await user.profiles.update(req.body);
 
-    const { name, bio, filename } = await profile.update(req.body);
+    const { age_range, max_distance } = await user.choices.update(req.body);
 
     await user.update(req.body);
 
     return res.status(200).json({
-      name, bio, filename, email,
+      name, bio, filename, email, age_range, max_distance,
     });
   }
 }

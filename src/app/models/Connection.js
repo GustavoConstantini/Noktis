@@ -6,6 +6,8 @@ class Connection extends Model {
       {
         socket: Sequelize.STRING,
         await_message: Sequelize.ARRAY(Sequelize.JSON),
+        expire_token: Sequelize.ARRAY(Sequelize.STRING),
+        sessions: Sequelize.ARRAY(Sequelize.JSON),
       },
       {
         sequelize,

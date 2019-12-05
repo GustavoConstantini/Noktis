@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import * as Yup from 'yup';
+import sequelize from 'sequelize';
 
 import User from '../models/User';
 import authConfig from '../../config/auth';
@@ -21,7 +22,7 @@ class SessionConstroller {
 
       const { email, password } = req.body;
 
-      const user = await User.findOne({ where: { email }, include: ['profiles'] });
+      const user = await User.findOne({ where: { email }, include: ['profiles', 'connections'] });
 
       if (!user) {
         return res.status(400).json({ error: 'Usuário não encontrado' });
@@ -39,6 +40,32 @@ class SessionConstroller {
         name, age, sex, bio, filename,
       } = profiles;
 
+      const { phone } = req.body;
+
+      const date = Date.now();
+
+      const token = jwt.sign({ id }, authConfig.secret, {
+        expiresIn: authConfig.expiresIn,
+      });
+
+      let ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
+
+      if (ip.substr(0, 7) === '::ffff:') {
+        ip = ip.substr(7);
+      }
+
+      const sessions = {
+        ip,
+        authorization: token,
+        timestamp: date,
+        phone,
+      };
+
+      await user.connections.update(
+        { sessions: sequelize.fn('array_append', sequelize.col('sessions'), JSON.stringify(sessions)) },
+        { where: { user_id: id } },
+      );
+
       return res.json({
         user: {
           id,
@@ -49,9 +76,7 @@ class SessionConstroller {
           filename,
           email,
         },
-        token: jwt.sign({ id }, authConfig.secret, {
-          expiresIn: authConfig.expiresIn,
-        }),
+        token,
       });
     } catch (error) {
       return res.status(400).json({ error: 'Erro no login' });
