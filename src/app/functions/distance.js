@@ -1,4 +1,4 @@
-export default function Distancia(latOne, lonOne, latTwo, lonTwo) {
+export default (latOne, lonOne, latTwo, lonTwo) => {
   try {
     const latOneDivided = latOne / 180;
     const latTwoDivided = latTwo / 180;
@@ -19,8 +19,8 @@ export default function Distancia(latOne, lonOne, latTwo, lonTwo) {
     distancia = distancia * 60 * 1.1515;
     distancia *= 1.609344;
 
-    return distancia.toFixed(2);
+    return Math.trunc(distancia);
   } catch (error) {
     return new Error(error);
   }
-}
+};

@@ -30,6 +30,10 @@ module.exports = {
       type: Sequelize.STRING,
       defaultValue: '18-100',
     },
+    max_distance: {
+      type: Sequelize.INTEGER,
+      defaultValue: 50,
+    },
     created_at: {
       type: Sequelize.DATE,
       allowNull: false,

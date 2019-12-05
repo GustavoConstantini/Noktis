@@ -16,7 +16,7 @@ class LikeController {
         }
 
         if (targetUser.connections.socket) {
-          req.io.to(targetUser.connection.socket).emit('match', loggedUser.profiles);
+          req.io.to(targetUser.connections.socket).emit('match', loggedUser.profiles);
         }
 
         await loggedUser.choices.update(

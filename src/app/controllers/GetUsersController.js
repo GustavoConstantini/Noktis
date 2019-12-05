@@ -3,7 +3,8 @@ import User from '../models/User';
 import Profile from '../models/Profile';
 import Location from '../models/Location';
 
-import distancia from '../functions/jsonEditor';
+import distance from '../functions/jsonEditor';
+import distanceFilter from '../functions/distanceFilter';
 
 class GetOnlineController {
   async index(req, res) {
@@ -43,9 +44,11 @@ class GetOnlineController {
         }],
       });
 
-      distancia(users, user.locations.latitude, user.locations.longitude);
+      distance(users, user.locations.latitude, user.locations.longitude);
 
-      return res.status(200).json({ users });
+      const userFilter = distanceFilter(users, user.choices.max_distance);
+
+      return res.status(200).json({ userFilter });
     } catch (error) {
       return res.status(400).json({ error: 'Erro em buscar os usuários' });
     }

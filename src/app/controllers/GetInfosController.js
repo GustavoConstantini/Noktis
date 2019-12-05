@@ -5,11 +5,12 @@ class GetInfosController {
     try {
       const user = await User.findOne({ where: { id: req.userId }, include: ['profiles'], attributes: { exclude: ['password_hash', 'createdAt', 'updatedAt'] } });
 
-      const userFilter = {
+      const profile = {
         email: user.email,
+        bio: user.profiles.bio,
         filename: user.profiles.filename,
       };
-      return res.status(200).json({ userFilter });
+      return res.status(200).json({ profile });
     } catch (error) {
       return res.status(400).json({ error: 'O usuário não existe' });
     }

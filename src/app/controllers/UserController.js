@@ -115,6 +115,8 @@ class UserController {
         .max(150),
       age_range: Yup.string()
         .max(6),
+      max_distance: Yup.string()
+        .max(6),
       oldPassword: Yup.string(),
       password: Yup.string()
         .min(5)
