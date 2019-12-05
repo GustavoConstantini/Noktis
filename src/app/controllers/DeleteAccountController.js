@@ -26,6 +26,10 @@ class DeleteAccountController {
       }
 
       if (user.profiles.filename === 'default_avatar_female.jpg' || user.profiles.filename === 'default_avatar_male.jpg') {
+        await user.choices.destroy();
+        await user.locations.destroy();
+        await user.profiles.destroy();
+        await user.connections.destroy();
         await user.destroy();
 
         return res.status(200).json({ ok: true });

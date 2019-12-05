@@ -10,7 +10,7 @@ class DislikeController {
 
       await loggedUser.update(
         { dislikes: sequelize.fn('array_append', sequelize.col('dislikes'), id) },
-        { where: { id: req.userId } },
+        { where: { user_id: req.userId } },
       );
     } catch (error) {
       return res.status(400).json({ error: 'O usuário não existe' });
