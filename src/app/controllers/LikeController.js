@@ -17,6 +17,11 @@ class LikeController {
 
         if (targetUser.connections.socket) {
           req.io.to(targetUser.connections.socket).emit('match', loggedUser.profiles);
+        } else {
+          await targetUser.connections.update(
+            { await_matches: sequelize.fn('array_append', sequelize.col('await_matches'), JSON.stringify(loggedUser.profiles)) },
+            { where: { user_id: targetUser.id } },
+          );
         }
 
         await loggedUser.choices.update(

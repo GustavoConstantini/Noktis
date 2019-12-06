@@ -9,10 +9,18 @@ export default async function io(Socket) {
 
     if (user.connections.socket && user.connections.await_message) {
       user.connections.await_message.map((index) => {
-        this.io.to(user.connections.socket).emit('awaitMessage', index);
+        this.io.to(user.connections.socket).emit('receiveMessage', index);
         return this;
       });
       await user.connections.update({ await_message: [] });
+    }
+
+    if (user.connections.socket && user.connections.await_matches) {
+      user.connections.await_matches.map((index) => {
+        this.io.to(user.connections.socket).emit('match', index);
+        return this;
+      });
+      await user.connections.update({ await_matches: [] });
     }
 
     Socket.on('disconnect', async () => {

@@ -5,9 +5,10 @@ class Connection extends Model {
     super.init(
       {
         socket: Sequelize.STRING,
-        await_message: Sequelize.ARRAY(Sequelize.JSON),
         expire_token: Sequelize.ARRAY(Sequelize.STRING),
         sessions: Sequelize.ARRAY(Sequelize.JSON),
+        await_message: Sequelize.ARRAY(Sequelize.JSON),
+        await_matches: Sequelize.ARRAY(Sequelize.JSON),
       },
       {
         sequelize,

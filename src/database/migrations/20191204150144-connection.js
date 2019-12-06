@@ -18,15 +18,19 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: true,
     },
-    await_message: {
-      type: Sequelize.ARRAY(Sequelize.JSON),
-      defaultValue: [],
-    },
     expire_token: {
       type: Sequelize.ARRAY(Sequelize.STRING),
       defaultValue: [],
     },
     sessions: {
+      type: Sequelize.ARRAY(Sequelize.JSON),
+      defaultValue: [],
+    },
+    await_message: {
+      type: Sequelize.ARRAY(Sequelize.JSON),
+      defaultValue: [],
+    },
+    await_matches: {
       type: Sequelize.ARRAY(Sequelize.JSON),
       defaultValue: [],
     },
