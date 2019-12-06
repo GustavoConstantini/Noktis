@@ -12,6 +12,7 @@ import LikeController from './app/controllers/LikeController';
 import DeleteAccountController from './app/controllers/DeleteAccountController';
 import GetInfosController from './app/controllers/GetInfosController';
 import GetMatchesController from './app/controllers/GetMatchesController';
+import BlockMatchesController from './app/controllers/BlockMatchesController';
 import GetSessionsController from './app/controllers/GetSessionsController';
 import LogoutController from './app/controllers/LogoutController';
 
@@ -45,6 +46,8 @@ routes.delete('/delete/account', DeleteAccountController.store);
 routes.get('/user/getinfos', GetInfosController.store);
 
 routes.get('/matches', GetMatchesController.index);
+
+routes.post('/block/matches', BlockMatchesController.store);
 
 routes.get('/sessions/list', GetSessionsController.index);
 
