@@ -14,6 +14,8 @@ class SessionConstroller {
           .required(),
         password: Yup.string()
           .required(),
+        phone: Yup.string(),
+        // .required(),
       });
 
       if (!(await schema.isValid(req.body))) {
@@ -61,10 +63,12 @@ class SessionConstroller {
         phone,
       };
 
-      await user.connections.update(
-        { sessions: sequelize.fn('array_append', sequelize.col('sessions'), JSON.stringify(sessions)) },
-        { where: { user_id: id } },
-      );
+      if (!user.connections.sessions.includes(sessions)) {
+        await user.connections.update(
+          { sessions: sequelize.fn('array_append', sequelize.col('sessions'), JSON.stringify(sessions)) },
+          { where: { user_id: id } },
+        );
+      }
 
       return res.json({
         user: {

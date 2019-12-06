@@ -27,8 +27,8 @@ class UserController {
         .max(150),
       latitude: Yup.string(),
       longitude: Yup.string(),
-      phone: Yup.string()
-        .required(),
+      phone: Yup.string(),
+      // .required(),
       email: Yup.string()
         .email()
         .required()

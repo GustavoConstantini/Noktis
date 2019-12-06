@@ -7,7 +7,7 @@ class GetMatchesController {
     try {
       const user = await User.findOne({ where: { id: req.userId }, include: ['choices'] });
 
-      const users = await User.findAll({
+      const userFilter = await User.findAll({
         where: { id: { [Op.in]: user.choices.matches } },
         attributes: { exclude: ['createdAt', 'updatedAt', 'password_hash', 'email'] },
         include: [
@@ -18,7 +18,7 @@ class GetMatchesController {
           }],
       });
 
-      return res.status(200).json({ users });
+      return res.status(200).json({ userFilter });
     } catch (error) {
       return res.status(400).json({ error: 'Erro ao procurar a lista de matches' });
     }
