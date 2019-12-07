@@ -45,6 +45,12 @@ class User extends Model {
       onDelete: 'CASCADE',
       foreignKey: 'user_id',
     });
+
+    this.hasOne(models.Post, {
+      as: 'Post',
+      onDelete: 'CASCADE',
+      foreignKey: 'user_id',
+    });
   }
 
   checkPassword(password) {

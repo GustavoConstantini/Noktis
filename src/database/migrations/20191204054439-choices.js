@@ -27,8 +27,8 @@ module.exports = {
       defaultValue: [],
     },
     age_range: {
-      type: Sequelize.STRING,
-      defaultValue: '18-100',
+      type: Sequelize.ARRAY(Sequelize.INTEGER),
+      defaultValue: [18, 100],
     },
     max_distance: {
       type: Sequelize.INTEGER,

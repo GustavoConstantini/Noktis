@@ -23,7 +23,7 @@ class GetOnlineController {
         oppositeSex = 'F';
       }
 
-      const [minAge, maxAge] = user.choices.age_range.split('-');
+      const [minAge, maxAge] = user.choices.age_range;
 
       const users = await User.findAll({
         where: {
@@ -35,7 +35,7 @@ class GetOnlineController {
           model: Profile,
           as: 'profiles',
           attributes: { exclude: ['createdAt', 'updatedAt', 'id', 'UserId', 'user_id'] },
-          where: { age: { [Op.between]: [Number(minAge), Number(maxAge)] }, sex: `${oppositeSex}`, user_id: { [Op.ne]: user.id } },
+          where: { age: { [Op.between]: [minAge, maxAge] }, sex: `${oppositeSex}`, user_id: { [Op.ne]: user.id } },
         },
         {
           model: Location,

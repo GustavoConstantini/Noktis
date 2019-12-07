@@ -7,7 +7,7 @@ class Choice extends Model {
         likes: Sequelize.ARRAY(Sequelize.INTEGER),
         dislikes: Sequelize.ARRAY(Sequelize.INTEGER),
         matches: Sequelize.ARRAY(Sequelize.INTEGER),
-        age_range: Sequelize.STRING,
+        age_range: Sequelize.ARRAY(Sequelize.INTEGER),
         max_distance: Sequelize.STRING,
       },
       {

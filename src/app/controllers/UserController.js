@@ -142,8 +142,10 @@ class UserController {
         .email(),
       bio: Yup.string()
         .max(150),
-      age_range: Yup.string()
-        .max(6),
+      min_age: Yup.number()
+        .max(18),
+      max_age: Yup.number()
+        .max(100),
       max_distance: Yup.string()
         .max(6),
       oldPassword: Yup.string(),
@@ -178,7 +180,10 @@ class UserController {
 
     const { name, bio, filename } = await user.profiles.update(req.body);
 
-    const { age_range, max_distance } = await user.choices.update(req.body);
+    const { age_range, max_distance } = await user.choices.update({
+      max_distance: req.body.max_distance,
+      age_range: [req.body.min_age, req.body.max_age],
+    });
 
     await user.update(req.body);
 
