@@ -14,7 +14,7 @@ module.exports = {
         key: 'id',
       },
     },
-    posts: {
+    post: {
       type: Sequelize.ARRAY(Sequelize.JSON),
       defaultValue: [],
     },

@@ -32,12 +32,10 @@ export default async function io(Socket) {
 
       const matchUser = await User.findOne({ where: { id: data.id }, include: ['connections'] });
 
-      const date = Date.now();
-
       const message = {
         sender: user.profiles,
         message: data.message,
-        timestamp: date,
+        timestamp: Date.now(),
       };
 
       if (matchUser.connections.socket) {

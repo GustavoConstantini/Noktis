@@ -15,7 +15,6 @@ class SessionConstroller {
         password: Yup.string()
           .required(),
         phone: Yup.string(),
-        // .required(),
       });
 
       if (!(await schema.isValid(req.body))) {
@@ -42,10 +41,6 @@ class SessionConstroller {
         name, age, sex, bio, filename,
       } = profiles;
 
-      const { phone } = req.body;
-
-      const date = Date.now();
-
       const token = jwt.sign({ id }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,
       });
@@ -59,16 +54,14 @@ class SessionConstroller {
       const sessions = {
         ip,
         authorization: token,
-        timestamp: date,
-        phone,
+        phone: req.body.phone,
+        timestamp: Date.now(),
       };
 
-      if (!user.connections.sessions.includes(sessions)) {
-        await user.connections.update(
-          { sessions: sequelize.fn('array_append', sequelize.col('sessions'), JSON.stringify(sessions)) },
-          { where: { user_id: id } },
-        );
-      }
+      await user.connections.update(
+        { sessions: sequelize.fn('array_append', sequelize.col('sessions'), JSON.stringify(sessions)) },
+        { where: { user_id: id } },
+      );
 
       return res.json({
         user: {

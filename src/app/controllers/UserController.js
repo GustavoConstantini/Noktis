@@ -7,6 +7,7 @@ import Profile from '../models/Profile';
 import Location from '../models/Location';
 import Choice from '../models/Choice';
 import Connection from '../models/Connection';
+import Post from '../models/Post';
 
 import authConfig from '../../config/auth';
 import checkAge from '../functions/ckeckAge';
@@ -28,7 +29,6 @@ class UserController {
       latitude: Yup.string(),
       longitude: Yup.string(),
       phone: Yup.string(),
-      // .required(),
       email: Yup.string()
         .email()
         .required()
@@ -82,6 +82,7 @@ class UserController {
     await Location.create({ user_id: id, latitude, longitude });
     await Choice.create({ user_id: id });
     await Connection.create({ user_id: id });
+    await Post.create({ user_id: id });
 
     const { age } = await Profile.create({
       user_id: id,
@@ -96,8 +97,6 @@ class UserController {
 
     const { phone } = req.body;
 
-    const date = Date.now();
-
     const token = jwt.sign({ id }, authConfig.secret, {
       expiresIn: authConfig.expiresIn,
     });
@@ -111,7 +110,6 @@ class UserController {
     const sessions = {
       ip,
       authorization: token,
-      timestamp: date,
       phone,
     };
 
@@ -143,11 +141,11 @@ class UserController {
       bio: Yup.string()
         .max(150),
       min_age: Yup.number()
-        .max(18),
+        .min(18),
       max_age: Yup.number()
         .max(100),
-      max_distance: Yup.string()
-        .max(6),
+      max_distance: Yup.number()
+        .max(300),
       oldPassword: Yup.string(),
       password: Yup.string()
         .min(5)
@@ -180,10 +178,7 @@ class UserController {
 
     const { name, bio, filename } = await user.profiles.update(req.body);
 
-    const { age_range, max_distance } = await user.choices.update({
-      max_distance: req.body.max_distance,
-      age_range: [req.body.min_age, req.body.max_age],
-    });
+    const { age_range, max_distance } = await user.choices.update(req.body);
 
     await user.update(req.body);
 

@@ -29,10 +29,12 @@ module.exports = {
     age_range: {
       type: Sequelize.ARRAY(Sequelize.INTEGER),
       defaultValue: [18, 100],
+      allowNull: false,
     },
     max_distance: {
       type: Sequelize.INTEGER,
       defaultValue: 50,
+      allowNull: false,
     },
     created_at: {
       type: Sequelize.DATE,

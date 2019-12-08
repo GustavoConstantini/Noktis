@@ -25,14 +25,17 @@ module.exports = {
     sessions: {
       type: Sequelize.ARRAY(Sequelize.JSON),
       defaultValue: [],
+      allowNull: false,
     },
     await_message: {
       type: Sequelize.ARRAY(Sequelize.JSON),
       defaultValue: [],
+      allowNull: false,
     },
     await_matches: {
       type: Sequelize.ARRAY(Sequelize.JSON),
       defaultValue: [],
+      allowNull: false,
     },
     created_at: {
       type: Sequelize.DATE,

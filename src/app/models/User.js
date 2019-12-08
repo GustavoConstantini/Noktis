@@ -47,7 +47,7 @@ class User extends Model {
     });
 
     this.hasOne(models.Post, {
-      as: 'Post',
+      as: 'posts',
       onDelete: 'CASCADE',
       foreignKey: 'user_id',
     });

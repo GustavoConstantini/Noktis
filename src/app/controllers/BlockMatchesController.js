@@ -7,9 +7,9 @@ class BlockMatchesController {
 
       const blockedUser = await User.findOne({ where: { id: req.body.block }, include: ['choices'] });
 
-      const where = user.choices.matches.indexOf(req.body.block);
+      const whereBlockUser = user.choices.matches.indexOf(req.body.block);
 
-      user.choices.matches.splice(where, 1);
+      user.choices.matches.splice(whereBlockUser, 1);
 
       await user.choices.update({ matches: user.choices.matches });
 

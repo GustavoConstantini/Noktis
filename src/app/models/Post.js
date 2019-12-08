@@ -4,7 +4,7 @@ class Post extends Model {
   static init(sequelize) {
     super.init(
       {
-        posts: Sequelize.ARRAY(Sequelize.JSON),
+        post: Sequelize.ARRAY(Sequelize.JSON),
       },
       {
         sequelize,
