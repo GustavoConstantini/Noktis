@@ -6,17 +6,29 @@ class PostController {
     try {
       const user = await User.findOne({ where: { id: req.userId }, include: ['posts'] });
 
-      const { filename: image } = req.file;
-
-      const { description } = req.body;
-
-      const date = Date.now();
-
       const post = {
-        image,
-        description,
-        date,
+        date: Date.now(),
       };
+
+      if (req.file && req.body.description) {
+        const { filename: image } = req.file;
+
+        const { description } = req.body;
+
+        post.image = image;
+
+        post.description = description;
+      } else if (req.file && !req.body.description) {
+        const { filename: image } = req.file;
+
+        post.image = image;
+      } else if (!req.file && req.body.description) {
+        const { description } = req.body;
+
+        post.description = description;
+      } else {
+        return res.status(400).json({ error: 'Erro ao processar o post' });
+      }
 
       await user.posts.update(
         { post: sequelize.fn('array_append', sequelize.col('post'), JSON.stringify(post)) },

@@ -22,6 +22,10 @@ module.exports = {
       type: Sequelize.DOUBLE,
       defaultValue: null,
     },
+    address: {
+      type: Sequelize.STRING,
+      defaultValue: null,
+    },
     created_at: {
       type: Sequelize.DATE,
       allowNull: false,

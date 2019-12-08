@@ -18,9 +18,7 @@ import BlockMatchesController from './app/controllers/BlockMatchesController';
 import GetSessionsController from './app/controllers/GetSessionsController';
 import LogoutController from './app/controllers/LogoutController';
 
-
 import authMiddleware from './app/middlewares/auth';
-
 
 const routes = new Router();
 const upload = multer(multerConfig);
@@ -51,7 +49,7 @@ routes.get('/matches', GetMatchesController.index);
 
 routes.post('/posts/publish', upload.single('file'), PostController.store);
 
-routes.get('/posts', GetPostController.index);
+routes.post('/posts', GetPostController.index);
 
 routes.post('/block/matches', BlockMatchesController.store);
 

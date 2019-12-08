@@ -1,5 +1,7 @@
 import User from '../models/User';
 
+import getAddress from '../functions/address';
+
 class LocationController {
   async store(req, res) {
     try {
@@ -14,6 +16,20 @@ class LocationController {
       if (latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180) {
         await user.locations.update({ latitude, longitude });
 
+        const {
+          village, town, city, suburb
+        } = await getAddress(latitude, longitude);
+
+        let address;
+
+        if (suburb) {
+          address = `${suburb}, ${village || town || city || ''}`;
+        } else {
+          address = `${village || town || city || ''}`;
+        }
+
+        await user.locations.update({ latitude, longitude, address });
+     
         return res.status(200).json({ ok: 'true' });
       }
 

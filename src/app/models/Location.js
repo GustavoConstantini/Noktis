@@ -6,6 +6,7 @@ class Location extends Model {
       {
         latitude: Sequelize.DOUBLE,
         longitude: Sequelize.DOUBLE,
+        address: Sequelize.STRING,
       },
       {
         sequelize,
